@@ -1,1 +1,6 @@
-<p>table works!</p>
+<div class="table-container">
+  <h1>
+    {{ tableName }}
+  </h1>
+  <ag-grid-angular class="ag-theme-alpine grid-comp" [rowData]="rowData" [columnDefs]="columnDefs"></ag-grid-angular>
+</div>

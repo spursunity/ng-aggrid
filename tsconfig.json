@@ -18,8 +18,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "@store/*": ["src/store/*"],
-      "@interfaces/*": ["src/shared/interfaces/*"]
+      "@store/*": ["src/app/store/*"],
+      "@shared/*": ["src/app/shared/*"]
     }
   },
   "angularCompilerOptions": {
