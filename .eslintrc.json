@@ -29,7 +29,9 @@
             "prefix": "app",
             "style": "camelCase"
           }
-        ]
+        ],
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"]
       }
     },
     {
