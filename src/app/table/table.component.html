@@ -4,7 +4,7 @@
   </h1>
   <ag-grid-angular
     class="ag-theme-alpine grid-comp"
-    [rowData]="rowData | async"
+    [rowData]="rowData | async | tableDataTransform"
     [columnDefs]="columnDefs"
     [frameworkComponents]="frameworkComponents"
   ></ag-grid-angular>

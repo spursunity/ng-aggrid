@@ -1,5 +1,5 @@
 export interface ITableState {
-  content: any[];
+  content: ITableRowData[];
 }
 
 export interface ITableRowData {
@@ -8,7 +8,7 @@ export interface ITableRowData {
     width: number;
     height: number;
   };
-  publishedAt: Date;
+  publishedAt: Date | string;
   title: string;
   description: string;
 }
