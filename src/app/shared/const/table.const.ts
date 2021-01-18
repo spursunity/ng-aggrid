@@ -1,7 +1,9 @@
 import { YOUTUBE_TOKEN } from './token';
 
+export const TABLE_THUMBNAIL_RENDERER = 'thumbnailRenderer';
+
 export const TABLE_GRID_CONFIG = [
-  { headerName: '', field: 'thumbnail', cellRenderer: 'thumbnailRenderer', autoHeight: true }, // thumbnails field has no column title
+  { headerName: '', field: 'thumbnail', cellRenderer: TABLE_THUMBNAIL_RENDERER, autoHeight: true }, // thumbnails field has no column title
   { headerName: 'Published on', field: 'publishedAt' },
   { headerName: 'Video Title', field: 'title' },
   { headerName: 'Description', field: 'description' },

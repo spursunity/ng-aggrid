@@ -1,8 +1,6 @@
 import { Component, OnInit, Self } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { IAppState } from '@shared/interface/app.interface';
 import { TableService } from './table.service';
 import { ITableRowData } from '@shared/interface/table.interface';
 
@@ -16,10 +14,12 @@ export class TableComponent implements OnInit {
   tableTitle: string;
   columnDefs: any[];
   rowData: Observable<ITableRowData[]>;
+  frameworkComponents: any;
 
   constructor(@Self() private tableSrv: TableService) {
     this.tableTitle = this.tableSrv.tableTitle;
     this.columnDefs = this.tableSrv.tableConfig;
+    this.frameworkComponents = this.tableSrv.tableFrameworkComponents;
     this.rowData = this.tableSrv.getTableData();
   }
 
