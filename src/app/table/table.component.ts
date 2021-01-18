@@ -23,5 +23,7 @@ export class TableComponent implements OnInit {
     this.rowData = this.tableSrv.getTableData();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.tableSrv.setTableData();
+  }
 }

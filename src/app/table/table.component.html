@@ -2,5 +2,9 @@
   <h1>
     {{ tableTitle }}
   </h1>
-  <ag-grid-angular class="ag-theme-alpine grid-comp" [rowData]="rowData" [columnDefs]="columnDefs"></ag-grid-angular>
+  <ag-grid-angular
+    class="ag-theme-alpine grid-comp"
+    [rowData]="rowData | async"
+    [columnDefs]="columnDefs"
+  ></ag-grid-angular>
 </div>
