@@ -1,13 +1,34 @@
 import { YOUTUBE_TOKEN } from './token';
 
-export const TABLE_THUMBNAIL_RENDERER = 'thumbnailRenderer';
-
-export const TABLE_GRID_CONFIG = [
-  { headerName: '', field: 'thumbnail', cellRenderer: TABLE_THUMBNAIL_RENDERER, autoHeight: true }, // thumbnails field has no column title
-  { headerName: 'Published on', field: 'publishedAt' },
-  { headerName: 'Video Title', field: 'title', tooltipValueGetter: (params: any) => params.value },
-  { headerName: 'Description', field: 'description', tooltipValueGetter: (params: any) => params.value },
-];
+export const TABLE_RENDERERS = {
+  thumbnail: 'thumbnailRenderer',
+  selectionCell: 'selectionCellRenderer',
+  selectionHeader: 'selectionHeaderRenderer',
+};
+export const TABLE_GRID_CONFIG = {
+  columnDefs: [
+    {
+      headerName: 'Select all',
+      field: 'checkbox',
+      cellRenderer: TABLE_RENDERERS.selectionCell,
+      headerComponent: TABLE_RENDERERS.selectionHeader,
+    },
+    { headerName: '', field: 'thumbnail', cellRenderer: TABLE_RENDERERS.thumbnail, autoHeight: true },
+    { headerName: 'Published on', field: 'publishedAt' },
+    { headerName: 'Video Title', field: 'title', tooltipValueGetter: (params: any) => params.value },
+    { headerName: 'Description', field: 'description', tooltipValueGetter: (params: any) => params.value },
+  ],
+  gridOptions: {
+    onRowSelected: (params: any) => {
+      const refreshParams = {
+        rowNodes: [params.node],
+        columns: ['checkbox'],
+        force: true,
+      };
+      params.api.refreshCells(refreshParams);
+    },
+  },
+};
 
 export const TABLE_TITLE = 'Youtube search ("John")';
 

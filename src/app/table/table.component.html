@@ -4,10 +4,13 @@
   </h1>
   <ag-grid-angular
     class="ag-theme-alpine grid-comp"
+    [gridOptions]="gridOptions"
     [rowData]="rowData | async | tableDataTransform"
     [columnDefs]="columnDefs"
     [frameworkComponents]="frameworkComponents"
     [allowContextMenuWithControlKey]="true"
     [getContextMenuItems]="getContextMenuItems"
+    [rowSelection]="'multiple'"
+    [rowMultiSelectWithClick]="true"
   ></ag-grid-angular>
 </div>

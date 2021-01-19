@@ -21,7 +21,8 @@ import { SelectionHeaderRendererComponent } from './selection-header-renderer/se
 @Injectable()
 export class TableService {
   tableTitle: string = TABLE_TITLE;
-  tableConfig: any[] = TABLE_GRID_CONFIG;
+  tableColumnDefs: any[] = TABLE_GRID_CONFIG.columnDefs;
+  tableGridOptions: any = TABLE_GRID_CONFIG.gridOptions;
   tableData: Observable<ITableRowData[]>;
   tableDataUrl: string = YOUTUBE_DATA_URL;
   tableFrameworkComponents: any = {

@@ -12,10 +12,11 @@ export class SelectionCellComponent implements ICellRendererAngularComp {
   constructor() {}
 
   agInit(params: ICellRendererParams): void {
-    this.checked = false;
+    this.checked = params.node?.isSelected() || false;
   }
 
   refresh(params: ICellRendererParams): boolean {
-    return false;
+    this.checked = params.node?.isSelected() || false;
+    return true;
   }
 }

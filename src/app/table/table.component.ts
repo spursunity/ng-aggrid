@@ -15,11 +15,13 @@ export class TableComponent implements OnInit {
   columnDefs: any[];
   rowData: Observable<ITableRowData[]>;
   frameworkComponents: any;
+  gridOptions: any;
   getContextMenuItems: (params: any) => any[];
 
   constructor(@Self() private tableSrv: TableService) {
     this.tableTitle = this.tableSrv.tableTitle;
-    this.columnDefs = this.tableSrv.tableConfig;
+    this.columnDefs = this.tableSrv.tableColumnDefs;
+    this.gridOptions = this.tableSrv.tableGridOptions;
     this.frameworkComponents = this.tableSrv.tableFrameworkComponents;
     this.rowData = this.tableSrv.getTableData();
     this.getContextMenuItems = this.tableSrv.getTableContextMenuItems.bind(this.tableSrv);
