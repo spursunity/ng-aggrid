@@ -6,7 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import {
   CONTEXT_MENU,
   TABLE_GRID_CONFIG,
-  TABLE_THUMBNAIL_RENDERER,
+  TABLE_RENDERERS,
   TABLE_TITLE,
   YOUTUBE_DATA_URL,
 } from '@shared/const/table.const';
@@ -15,6 +15,8 @@ import { ITableRowData } from '@shared/interface/table.interface';
 import { addTableData, selectTableData, setIsLinkProp } from '@store/table';
 import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
+import { SelectionCellComponent } from './selection-cell/selection-cell.component';
+import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
 
 @Injectable()
 export class TableService {
@@ -23,7 +25,9 @@ export class TableService {
   tableData: Observable<ITableRowData[]>;
   tableDataUrl: string = YOUTUBE_DATA_URL;
   tableFrameworkComponents: any = {
-    [TABLE_THUMBNAIL_RENDERER]: ThumbnailRendererComponent,
+    [TABLE_RENDERERS.thumbnail]: ThumbnailRendererComponent,
+    [TABLE_RENDERERS.selectionCell]: SelectionCellComponent,
+    [TABLE_RENDERERS.selectionHeader]: SelectionHeaderRendererComponent,
   };
 
   constructor(private store: Store<IAppState>, private httpHelper: HttpHelperService) {
