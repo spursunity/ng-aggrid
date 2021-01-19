@@ -1,7 +1,7 @@
 <div class="table-container">
-  <h1>
-    {{ tableTitle }}
-  </h1>
+  <mat-toolbar color="primary">
+    <span>{{ tableTitle }}</span>
+  </mat-toolbar>
   <ag-grid-angular
     class="ag-theme-alpine grid-comp"
     [gridOptions]="gridOptions"
