@@ -7,5 +7,7 @@
     [rowData]="rowData | async | tableDataTransform"
     [columnDefs]="columnDefs"
     [frameworkComponents]="frameworkComponents"
+    [allowContextMenuWithControlKey]="true"
+    [getContextMenuItems]="getContextMenuItems"
   ></ag-grid-angular>
 </div>

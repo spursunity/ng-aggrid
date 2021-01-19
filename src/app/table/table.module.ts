@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgGridModule } from 'ag-grid-angular';
+import 'ag-grid-enterprise';
 
 import { TableComponent } from './table.component';
 import { TableRoutingModule } from './table-routing.module';
