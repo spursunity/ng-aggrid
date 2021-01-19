@@ -9,5 +9,5 @@ export const addTableData = createAction(
 
 export const setIsLinkProp = createAction(
   '[Table Component] Set Is Link Prop To Row',
-  props<{ payload: { row: ITableRowData; isLinkFlag: boolean } }>()
+  props<{ payload: { videoId: string; isLinkFlag: boolean } }>()
 );

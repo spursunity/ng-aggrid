@@ -16,10 +16,13 @@ const tableActionReducer = createReducer(
   on(setIsLinkProp, (state, { payload }) => {
     const { content } = state;
     const newContent = content.map((row) => {
-      if (row.videoId === payload.row.videoId) {
+      if (row.videoId === payload.videoId) {
         return {
           ...row,
-          isLink: payload.isLinkFlag,
+          thumbnail: {
+            ...row.thumbnail,
+            isLink: payload.isLinkFlag,
+          },
         };
       }
       return { ...row };
