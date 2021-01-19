@@ -28,12 +28,13 @@ export class TableService {
     this.httpHelper
       .httpGetRequest(this.tableDataUrl)
       .pipe(
-        map((response: any) => ({
-          content: (response?.items || []).map(({ snippet }: any) => ({
+        map((response: any): { content: ITableRowData[] } => ({
+          content: (response?.items || []).map(({ snippet, id }: any) => ({
             thumbnail: snippet.thumbnails.default,
             publishedAt: snippet.publishedAt,
             title: snippet.title,
             description: snippet.description,
+            videoId: id.videoId,
           })),
         })),
         catchError(() => [])
