@@ -8,10 +8,18 @@ import { AppComponent } from './app.component';
 import { TableModule } from './table/table.module';
 import { appState } from './store';
 import { HttpHelperService } from '@shared/helper/http-helper.service';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, TableModule, StoreModule.forRoot(appState)],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    TableModule,
+    StoreModule.forRoot(appState),
+    MaterialModule,
+  ],
   providers: [HttpHelperService],
   bootstrap: [AppComponent],
 })
