@@ -9,13 +9,24 @@ import { ICellRendererParams } from 'ag-grid-community';
 })
 export class SelectionHeaderRendererComponent implements ICellRendererAngularComp {
   checked = false;
+  params!: ICellRendererParams;
   constructor() {}
 
   agInit(params: ICellRendererParams): void {
+    this.params = params;
     this.checked = false;
   }
 
   refresh(params: ICellRendererParams): boolean {
     return false;
+  }
+
+  changeRowsSelectionState() {
+    if (this.checked) {
+      this.params.api?.deselectAll();
+    } else {
+      this.params.api?.selectAll();
+    }
+    this.checked = !this.checked;
   }
 }
