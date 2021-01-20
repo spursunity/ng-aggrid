@@ -17,13 +17,16 @@ export const TABLE_GRID_CONFIG = {
       cellRenderer: TABLE_RENDERERS.selectionCell,
       headerComponent: TABLE_RENDERERS.selectionHeader,
       initialHide: true,
+      width: '30px',
     },
-    { headerName: '', field: 'thumbnail', cellRenderer: TABLE_RENDERERS.thumbnail, autoHeight: true },
-    { headerName: 'Published on', field: 'publishedAt' },
-    { headerName: 'Video Title', field: 'title', tooltipValueGetter: (params: any) => params.value },
-    { headerName: 'Description', field: 'description', tooltipValueGetter: (params: any) => params.value },
+    { headerName: '', field: 'thumbnail', cellRenderer: TABLE_RENDERERS.thumbnail, width: '120px' },
+    { headerName: 'Published on', field: 'publishedAt', flex: 1 },
+    { headerName: 'Video Title', field: 'title', tooltipValueGetter: (params: any) => params.value, flex: 3 },
+    { headerName: 'Description', field: 'description', tooltipValueGetter: (params: any) => params.value, flex: 3 },
   ],
-  gridOptions: {},
+  gridOptions: {
+    rowHeight: 90,
+  },
   sideBar: {
     toolPanels: [
       {
