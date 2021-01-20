@@ -11,3 +11,18 @@ export const setIsLinkProp = createAction(
   '[Table Component] Set Is Link Prop To Row',
   props<{ payload: { videoId: string; isLinkFlag: boolean } }>()
 );
+
+export const changeSelectionStatus = createAction(
+  '[Table Component] Change Selection Status',
+  props<{ payload: { hasSelection: boolean } }>()
+);
+
+export const setAllRowsCount = createAction(
+  '[Table Component] Set All Rows Count',
+  props<{ payload: { allRowsCount: number } }>()
+);
+
+export const setSelectedRowsCount = createAction(
+  '[Table Component] Set Selected Rows Count',
+  props<{ payload: { selectedRowsCount: number } }>()
+);
