@@ -1,37 +1,27 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { IToolPanelParams } from 'ag-grid-community';
 import { fromEventPattern, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
+import { IAppState } from '@shared/interface/app.interface';
+import { selectAllRowsCount, selectSelectedRowsCount, selectSelectionState } from '@store/table';
+
 @Injectable()
 export class ToolpanelRendererService {
-  constructor() {}
+  hasSelection$: Observable<boolean>;
+  allRowsCount$: Observable<number>;
+  selectedRowsCount$: Observable<number>;
+  withSelection = false;
 
-  getAllRowsCount(params: IToolPanelParams): Observable<number> {
-    return fromEventPattern(
-      (handler) => params.api.addEventListener('paginationChanged', handler),
-      (handler) => params.api.removeEventListener('paginationChanged', handler)
-    ).pipe(
-      startWith(0),
-      map(() => {
-        const allRows = params.api.getDisplayedRowCount() || 0;
-
-        return allRows;
+  constructor(private store: Store<IAppState>) {
+    this.hasSelection$ = this.store.select(selectSelectionState).pipe(
+      map((hasSelection: boolean) => {
+        this.withSelection = hasSelection;
+        return this.withSelection;
       })
     );
-  }
-
-  getSelectedRowsCount(params: IToolPanelParams): Observable<number> {
-    return fromEventPattern(
-      (handler) => params.api.addEventListener('selectionChanged', handler),
-      (handler) => params.api.removeEventListener('selectionChanged', handler)
-    ).pipe(
-      startWith(0),
-      map(() => {
-        const selectedRows = params.api.getSelectedRows()?.length || 0;
-
-        return selectedRows;
-      })
-    );
+    this.allRowsCount$ = this.store.select(selectAllRowsCount);
+    this.selectedRowsCount$ = this.store.select(selectSelectedRowsCount);
   }
 }

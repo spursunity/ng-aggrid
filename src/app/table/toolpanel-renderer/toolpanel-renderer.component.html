@@ -2,7 +2,7 @@
   <div class="switcher-container">
     <button mat-raised-button color="primary">Switch Selection</button>
   </div>
-  <div class="stats-container" *ngIf="allRowsCount$ && selectedRowsCount$">
+  <div class="stats-container" *ngIf="hasSelection$ | async">
     <mat-list>
       <mat-list-item>All rows count: {{ allRowsCount$ | async }}</mat-list-item>
       <mat-list-item>Selected rows count: {{ selectedRowsCount$ | async }}</mat-list-item>
