@@ -7,9 +7,20 @@ import { TableComponent } from './table.component';
 import { TableRoutingModule } from './table-routing.module';
 import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
 import { TableDataTransformPipe } from '@shared/pipe/table-data-transform.pipe';
+import { SelectionCellComponent } from './selection-cell/selection-cell.component';
+import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
+import { MaterialModule } from '../material/material.module';
+import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
 
 @NgModule({
-  declarations: [TableComponent, ThumbnailRendererComponent, TableDataTransformPipe],
-  imports: [CommonModule, TableRoutingModule, AgGridModule.withComponents([])],
+  declarations: [
+    TableComponent,
+    ThumbnailRendererComponent,
+    TableDataTransformPipe,
+    SelectionCellComponent,
+    SelectionHeaderRendererComponent,
+    ToolpanelRendererComponent,
+  ],
+  imports: [CommonModule, TableRoutingModule, AgGridModule.withComponents([]), MaterialModule],
 })
 export class TableModule {}

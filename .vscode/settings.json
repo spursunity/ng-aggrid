@@ -1,7 +1,7 @@
 {
   "prettier.packageManager": "yarn",
   "editor.formatOnSave": true,
-  "prettier.configPath": "/.prettierrc",
+  "prettier.configPath": "./.prettierrc",
   "prettier.ignorePath": "",
   "prettier.singleQuote": true,
   "prettier.useEditorConfig": false,

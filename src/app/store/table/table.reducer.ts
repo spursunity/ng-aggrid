@@ -5,6 +5,9 @@ import { addTableData, setIsLinkProp } from './table.actions';
 
 const initialState: ITableState = {
   content: [],
+  hasSelection: false,
+  allRowsCount: 0,
+  selectedRowsCount: 0,
 };
 
 const tableActionReducer = createReducer(
