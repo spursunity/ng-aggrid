@@ -17,6 +17,7 @@ import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
 import { SelectionCellComponent } from './selection-cell/selection-cell.component';
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
+import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
 
 @Injectable()
 export class TableService {
@@ -29,7 +30,9 @@ export class TableService {
     [TABLE_RENDERERS.thumbnail]: ThumbnailRendererComponent,
     [TABLE_RENDERERS.selectionCell]: SelectionCellComponent,
     [TABLE_RENDERERS.selectionHeader]: SelectionHeaderRendererComponent,
+    [TABLE_RENDERERS.toolPanel]: ToolpanelRendererComponent,
   };
+  tableSideBar: any = TABLE_GRID_CONFIG.sideBar;
 
   constructor(private store: Store<IAppState>, private httpHelper: HttpHelperService) {
     this.tableData = this.store.select(selectTableData);

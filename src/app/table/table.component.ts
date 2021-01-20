@@ -16,6 +16,7 @@ export class TableComponent implements OnInit {
   rowData: Observable<ITableRowData[]>;
   frameworkComponents: any;
   gridOptions: any;
+  sideBar: any;
   getContextMenuItems: (params: any) => any[];
 
   constructor(@Self() private tableSrv: TableService) {
@@ -25,6 +26,7 @@ export class TableComponent implements OnInit {
     this.frameworkComponents = this.tableSrv.tableFrameworkComponents;
     this.rowData = this.tableSrv.getTableData();
     this.getContextMenuItems = this.tableSrv.getTableContextMenuItems.bind(this.tableSrv);
+    this.sideBar = this.tableSrv.tableSideBar;
   }
 
   ngOnInit(): void {

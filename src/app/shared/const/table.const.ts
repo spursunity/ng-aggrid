@@ -4,6 +4,7 @@ export const TABLE_RENDERERS = {
   thumbnail: 'thumbnailRenderer',
   selectionCell: 'selectionCellRenderer',
   selectionHeader: 'selectionHeaderRenderer',
+  toolPanel: 'toolPanelRenderer',
 };
 export const TABLE_GRID_CONFIG = {
   columnDefs: [
@@ -27,6 +28,16 @@ export const TABLE_GRID_CONFIG = {
       };
       params.api.refreshCells(refreshParams);
     },
+  },
+  sideBar: {
+    toolPanels: [
+      {
+        id: 'selection',
+        labelDefault: 'Selection',
+        labelKey: 'selection',
+        toolPanel: TABLE_RENDERERS.toolPanel,
+      },
+    ],
   },
 };
 
