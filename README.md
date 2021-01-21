@@ -2,6 +2,15 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.
 
+## Start project locally
+
+You should add youtube API token. Generate your own token. Create file `token.ts` in `/src/app/shared/const/` folder.
+File content:
+
+```typescript
+export const YOUTUBE_TOKEN = '<your_youtube_token>';
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
