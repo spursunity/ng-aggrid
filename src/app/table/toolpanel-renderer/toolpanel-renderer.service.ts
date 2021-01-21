@@ -10,20 +10,25 @@ import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
 
 @Injectable()
 export class ToolpanelRendererService {
-  allRowsCount$: Observable<number>;
-  hasSelection$: Observable<boolean>;
-  selectedRowsCount$: Observable<number>;
   withSelection = false;
 
-  constructor(private store: Store<IAppState>) {
-    this.hasSelection$ = this.store.select(selectSelectionState).pipe(
+  constructor(private store: Store<IAppState>) {}
+
+  getAllRowsCount(): Observable<number> {
+    return this.store.select(selectAllRowsCount);
+  }
+
+  getHasSelection(): Observable<boolean> {
+    return this.store.select(selectSelectionState).pipe(
       map((hasSelection: boolean) => {
         this.withSelection = hasSelection;
         return this.withSelection;
       })
     );
-    this.allRowsCount$ = this.store.select(selectAllRowsCount);
-    this.selectedRowsCount$ = this.store.select(selectSelectedRowsCount);
+  }
+
+  getSelectedRowsCount(): Observable<number> {
+    return this.store.select(selectSelectedRowsCount);
   }
 
   switchSelection(params: IToolPanelParams) {
