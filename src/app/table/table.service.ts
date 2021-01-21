@@ -2,7 +2,15 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { PaginationChangedEvent, RowSelectedEvent } from 'ag-grid-community';
+import {
+  ColDef,
+  GetContextMenuItemsParams,
+  GridOptions,
+  MenuItemDef,
+  PaginationChangedEvent,
+  RowSelectedEvent,
+  SideBarDef,
+} from 'ag-grid-community';
 
 import {
   CONTEXT_MENU,
@@ -29,26 +37,9 @@ import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-rende
 
 @Injectable()
 export class TableService {
-  tableTitle: string = TABLE_TITLE;
-  tableColumnDefs: any[] = TABLE_GRID_CONFIG.columnDefs;
-  tableGridOptions: any = TABLE_GRID_CONFIG.gridOptions;
-  tableData$: Observable<ITableRowData[]>;
   tableDataUrl: string = YOUTUBE_DATA_URL;
-  tableFrameworkComponents: any = {
-    [TABLE_RENDERERS.thumbnail]: ThumbnailRendererComponent,
-    [TABLE_RENDERERS.selectionCell]: SelectionCellComponent,
-    [TABLE_RENDERERS.selectionHeader]: SelectionHeaderRendererComponent,
-    [TABLE_RENDERERS.toolPanel]: ToolpanelRendererComponent,
-  };
-  tableSideBar: any = TABLE_GRID_CONFIG.sideBar;
-  tableHasSelection$: Observable<boolean>;
 
-  constructor(private store: Store<IAppState>, private httpHelper: HttpHelperService) {
-    this.tableData$ = this.store.select(selectTableData);
-    this.tableHasSelection$ = this.store.select(selectSelectionState);
-    this.tableGridOptions.onPaginationChanged = this.paginationChangedHandler.bind(this);
-    this.tableGridOptions.onRowSelected = this.rowSelectedHandler.bind(this);
-  }
+  constructor(private store: Store<IAppState>, private httpHelper: HttpHelperService) {}
 
   setTableData(): void {
     this.httpHelper
@@ -74,15 +65,44 @@ export class TableService {
   }
 
   getTableData(): Observable<ITableRowData[]> {
-    return this.tableData$;
+    return this.store.select(selectTableData);
   }
 
   getTableHasSelection(): Observable<boolean> {
-    return this.tableHasSelection$;
+    return this.store.select(selectSelectionState);
   }
 
-  getTableContextMenuItems(params: any): any[] {
-    const columnId = params.column?.colId;
+  getTableGridOptions(): GridOptions {
+    const gridOptions: any = { ...TABLE_GRID_CONFIG.gridOptions };
+    gridOptions.onPaginationChanged = this.paginationChangedHandler.bind(this);
+    gridOptions.onRowSelected = this.rowSelectedHandler.bind(this);
+
+    return gridOptions;
+  }
+
+  getTableSideBar(): SideBarDef {
+    return { ...TABLE_GRID_CONFIG.sideBar };
+  }
+
+  getTableFrameworkComponents(): any {
+    return {
+      [TABLE_RENDERERS.thumbnail]: ThumbnailRendererComponent,
+      [TABLE_RENDERERS.selectionCell]: SelectionCellComponent,
+      [TABLE_RENDERERS.selectionHeader]: SelectionHeaderRendererComponent,
+      [TABLE_RENDERERS.toolPanel]: ToolpanelRendererComponent,
+    };
+  }
+
+  getTableTitle(): string {
+    return TABLE_TITLE;
+  }
+
+  getTableColumnDefs(): ColDef[] {
+    return TABLE_GRID_CONFIG.columnDefs;
+  }
+
+  getTableContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
+    const columnId = params.column?.getColId();
     const isLink = params.node?.data?.thumbnail?.isLink;
     const defaultMenu = [...CONTEXT_MENU.defaultMenu];
     const advancedMenuItem = {
@@ -105,7 +125,7 @@ export class TableService {
     return defaultMenu;
   }
 
-  private paginationChangedHandler(event: PaginationChangedEvent) {
+  private paginationChangedHandler(event: PaginationChangedEvent): void {
     const allRowsCount = event.api.getDisplayedRowCount() || 0;
     const payload = {
       allRowsCount,
@@ -113,7 +133,7 @@ export class TableService {
     this.store.dispatch(setAllRowsCount({ payload }));
   }
 
-  private rowSelectedHandler(event: RowSelectedEvent) {
+  private rowSelectedHandler(event: RowSelectedEvent): void {
     const refreshParams = {
       rowNodes: [event.node],
       columns: ['checkbox'],
