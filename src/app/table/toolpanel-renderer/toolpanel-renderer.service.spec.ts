@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { cold } from 'jasmine-marbles';
 
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
 import { IAppState } from '@shared/interface/app.interface';
