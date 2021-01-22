@@ -6,28 +6,26 @@ export const TABLE_RENDERERS = {
   selectionHeader: 'selectionHeaderRenderer',
   toolPanel: 'toolPanelRenderer',
 };
+
+export const TABLE_SELECTION_COLUMN_ID = 'checkbox';
+
 export const TABLE_GRID_CONFIG = {
   columnDefs: [
     {
       headerName: 'Select all',
-      field: 'checkbox',
+      field: TABLE_SELECTION_COLUMN_ID,
       cellRenderer: TABLE_RENDERERS.selectionCell,
       headerComponent: TABLE_RENDERERS.selectionHeader,
+      initialHide: true,
+      width: 30,
     },
-    { headerName: '', field: 'thumbnail', cellRenderer: TABLE_RENDERERS.thumbnail, autoHeight: true },
-    { headerName: 'Published on', field: 'publishedAt' },
-    { headerName: 'Video Title', field: 'title', tooltipValueGetter: (params: any) => params.value },
-    { headerName: 'Description', field: 'description', tooltipValueGetter: (params: any) => params.value },
+    { headerName: '', field: 'thumbnail', cellRenderer: TABLE_RENDERERS.thumbnail, width: 120 },
+    { headerName: 'Published on', field: 'publishedAt', flex: 1 },
+    { headerName: 'Video Title', field: 'title', tooltipValueGetter: (params: any) => params.value, flex: 3 },
+    { headerName: 'Description', field: 'description', tooltipValueGetter: (params: any) => params.value, flex: 3 },
   ],
   gridOptions: {
-    onRowSelected: (params: any) => {
-      const refreshParams = {
-        rowNodes: [params.node],
-        columns: ['checkbox'],
-        force: true,
-      };
-      params.api.refreshCells(refreshParams);
-    },
+    rowHeight: 90,
   },
   sideBar: {
     toolPanels: [
@@ -36,6 +34,7 @@ export const TABLE_GRID_CONFIG = {
         labelDefault: 'Selection',
         labelKey: 'selection',
         toolPanel: TABLE_RENDERERS.toolPanel,
+        iconKey: 'tick',
       },
     ],
   },
@@ -57,4 +56,8 @@ export const CONTEXT_MENU = {
   defaultMenu: ['copy', 'copyWithHeaders', 'paste'],
   additionalItemName: 'Open in new tab',
   columnIdWithAddItem: 'title',
+};
+
+export const TABLE_EFFECT_ACTIONS = {
+  loadTableData: '[Table Component] Load Data',
 };

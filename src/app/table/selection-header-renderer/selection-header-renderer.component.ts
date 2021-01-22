@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
+import { IAppState } from '@shared/interface/app.interface';
+import { selectIsAllRowsSelected } from '@store/table';
 
 @Component({
   selector: 'app-selection-header-renderer',
@@ -8,13 +14,19 @@ import { ICellRendererParams } from 'ag-grid-community';
   styleUrls: ['./selection-header-renderer.component.scss'],
 })
 export class SelectionHeaderRendererComponent implements ICellRendererAngularComp {
-  checked = false;
+  checkboxState$: Observable<boolean>;
   params!: ICellRendererParams;
-  constructor() {}
+
+  private checked = false;
+
+  constructor(private store: Store<IAppState>) {
+    this.checkboxState$ = this.store
+      .select(selectIsAllRowsSelected)
+      .pipe(map((isAllSelected: boolean) => (this.checked = isAllSelected)));
+  }
 
   agInit(params: ICellRendererParams): void {
     this.params = params;
-    this.checked = false;
   }
 
   refresh(params: ICellRendererParams): boolean {
@@ -27,6 +39,5 @@ export class SelectionHeaderRendererComponent implements ICellRendererAngularCom
     } else {
       this.params.api?.selectAll();
     }
-    this.checked = !this.checked;
   }
 }

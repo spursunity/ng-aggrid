@@ -1,7 +1,13 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { ITableState } from '@shared/interface/table.interface';
-import { addTableData, setIsLinkProp } from './table.actions';
+import {
+  addTableData,
+  changeSelectionStatus,
+  setAllRowsCount,
+  setIsLinkProp,
+  setSelectedRowsCount,
+} from './table.actions';
 
 const initialState: ITableState = {
   content: [],
@@ -34,7 +40,19 @@ const tableActionReducer = createReducer(
       ...state,
       content: [...newContent],
     };
-  })
+  }),
+  on(changeSelectionStatus, (state, { payload }) => ({
+    ...state,
+    hasSelection: payload.hasSelection,
+  })),
+  on(setAllRowsCount, (state, { payload }) => ({
+    ...state,
+    allRowsCount: payload.allRowsCount,
+  })),
+  on(setSelectedRowsCount, (state, { payload }) => ({
+    ...state,
+    selectedRowsCount: payload.selectedRowsCount,
+  }))
 );
 
 export const tableReducer = (state: ITableState | undefined, action: Action): ITableState =>

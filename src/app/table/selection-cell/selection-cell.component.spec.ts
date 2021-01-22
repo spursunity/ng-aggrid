@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MaterialModule } from 'src/app/material/material.module';
 
 import { SelectionCellComponent } from './selection-cell.component';
 
@@ -9,6 +10,7 @@ describe('SelectionCellComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SelectionCellComponent],
+      imports: [MaterialModule],
     }).compileComponents();
   });
 
@@ -20,5 +22,14 @@ describe('SelectionCellComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should be unchecked', () => {
+    expect(component.checked).toBeFalse();
+  });
+
+  it('should have checkbox', () => {
+    const html = fixture.nativeElement;
+    expect(html.querySelector('input')).toBeTruthy();
   });
 });

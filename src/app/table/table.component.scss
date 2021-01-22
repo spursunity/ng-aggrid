@@ -1,6 +1,6 @@
 /* Mixins */
 @mixin fullwidth {
-  min-width: 100%;
+  width: 100%;
 }
 
 /* Style */
@@ -9,6 +9,6 @@
 
   .grid-comp {
     @include fullwidth;
-    height: 500px;
+    height: calc(100vh - 64px);
   }
 }
