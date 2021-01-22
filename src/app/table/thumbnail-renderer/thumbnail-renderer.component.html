@@ -1,0 +1,13 @@
+<div>
+  <a *ngIf="imageData.isLink && videoLink" [href]="videoLink" target="_blank">
+    <img [width]="imageData.width" [height]="imageData.height" [src]="imageData.url" alt="Thumbnail" />
+  </a>
+
+  <img
+    *ngIf="!imageData.isLink || !videoLink"
+    [width]="imageData.width"
+    [height]="imageData.height"
+    [src]="imageData.url"
+    alt="Thumbnail"
+  />
+</div>

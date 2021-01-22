@@ -1,0 +1,17 @@
+.toolbar-container {
+  width: 100%;
+  min-width: 200px;
+
+  .switcher-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+  }
+  .stats-container {
+    div {
+      text-align: center;
+    }
+  }
+}

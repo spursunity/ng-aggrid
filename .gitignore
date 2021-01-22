@@ -46,3 +46,7 @@ testem.log
 Thumbs.db
 
 /package-lock.json
+/yarn-*
+/yarn.*
+/debug.*
+/src/app/shared/const/token*

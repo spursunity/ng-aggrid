@@ -1,6 +1,17 @@
 # Aggrid
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.
+## Project on GitHub Pages:
+
+[Ag-grid table](https://spursunity.github.io/ng-aggrid)
+
+## Start project locally
+
+You should add youtube API token. Generate your own token. Create file `token.ts` in `/src/app/shared/const/` folder.
+File content:
+
+```typescript
+export const YOUTUBE_TOKEN = '<your_youtube_token>';
+```
 
 ## Development server
 

@@ -1,0 +1,14 @@
+/* Mixins */
+@mixin fullwidth {
+  width: 100%;
+}
+
+/* Style */
+.table-container {
+  @include fullwidth;
+
+  .grid-comp {
+    @include fullwidth;
+    height: calc(100vh - 64px);
+  }
+}
