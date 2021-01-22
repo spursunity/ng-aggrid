@@ -51,7 +51,7 @@ const tableActionReducer = createReducer(
   })),
   on(setSelectedRowsCount, (state, { payload }) => ({
     ...state,
-    setSelectedRowsCount: payload.selectedRowsCount,
+    selectedRowsCount: payload.selectedRowsCount,
   }))
 );
 

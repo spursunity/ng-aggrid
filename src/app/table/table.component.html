@@ -11,8 +11,8 @@
     [allowContextMenuWithControlKey]="true"
     [getContextMenuItems]="getContextMenuItems"
     [rowSelection]="'multiple'"
-    [rowMultiSelectWithClick]="hasSelection$ | async"
-    [suppressRowClickSelection]="(hasSelection$ | async) === false"
+    [rowMultiSelectWithClick]="hasSelection$ | async | getBoolean"
+    [suppressRowClickSelection]="(hasSelection$ | async | getBoolean) === false"
     [sideBar]="sideBar"
   ></ag-grid-angular>
 </div>
