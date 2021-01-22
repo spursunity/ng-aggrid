@@ -34,12 +34,6 @@ describe('TableService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should have "tableDataUrl" <string>', () => {
-    expect(service.tableDataUrl).toBeTruthy();
-    expect(service.tableDataUrl).toContain('http');
-    expect(service.tableDataUrl).toContain('youtube');
-  });
-
   it('getTableData() should return observer with "content" <ITableRowData[]> property of Store', () => {
     let content = initialState.table.content;
     service.getTableData().subscribe((value: ITableRowData[]) => {

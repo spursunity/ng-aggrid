@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
 import {
   ColDef,
   GetContextMenuItemsParams,
@@ -14,22 +13,20 @@ import {
 
 import {
   CONTEXT_MENU,
+  TABLE_EFFECT_ACTIONS,
   TABLE_GRID_CONFIG,
   TABLE_RENDERERS,
   TABLE_TITLE,
-  YOUTUBE_DATA_URL,
 } from '@shared/const/table.const';
 import { IAppState } from '@shared/interface/app.interface';
 import { ITableRowData } from '@shared/interface/table.interface';
 import {
-  addTableData,
   selectSelectionState,
   selectTableData,
   setAllRowsCount,
   setIsLinkProp,
   setSelectedRowsCount,
 } from '@store/table';
-import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
 import { SelectionCellComponent } from './selection-cell/selection-cell.component';
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
@@ -37,31 +34,10 @@ import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-rende
 
 @Injectable()
 export class TableService {
-  tableDataUrl: string = YOUTUBE_DATA_URL;
-
-  constructor(private store: Store<IAppState>, private httpHelper: HttpHelperService) {}
+  constructor(private store: Store<IAppState>) {}
 
   setTableData(): void {
-    this.httpHelper
-      .httpGetRequest(this.tableDataUrl)
-      .pipe(
-        map((response: any): { content: ITableRowData[] } => ({
-          content: (response?.items || []).map(({ snippet, id }: any) => ({
-            thumbnail: snippet.thumbnails.default,
-            publishedAt: snippet.publishedAt,
-            title: snippet.title,
-            description: snippet.description,
-            videoId: id.videoId,
-          })),
-        })),
-        catchError(() => [])
-      )
-      .subscribe(
-        (data) => {
-          this.store.dispatch(addTableData({ payload: data }));
-        },
-        (err) => console.error('getTableData Error: ', err.message)
-      );
+    this.store.dispatch({ type: TABLE_EFFECT_ACTIONS.loadTableData });
   }
 
   getTableData(): Observable<ITableRowData[]> {

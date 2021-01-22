@@ -57,3 +57,7 @@ export const CONTEXT_MENU = {
   additionalItemName: 'Open in new tab',
   columnIdWithAddItem: 'title',
 };
+
+export const TABLE_EFFECT_ACTIONS = {
+  loadTableData: '[Table Component] Load Data',
+};
