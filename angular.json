@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "baseHref": "./ng-aggrid",
+            "baseHref": "/",
             "outputPath": "dist/aggrid",
             "index": "src/index.html",
             "main": "src/main.ts",
