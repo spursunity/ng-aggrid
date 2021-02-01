@@ -87,10 +87,6 @@ describe('TableService', () => {
     expect(sideBar.toolPanels).toBeInstanceOf(Array);
   });
 
-  it('getTableFrameworkComponents() should return <Object>', () => {
-    expect(service.getTableFrameworkComponents()).toBeInstanceOf(Object);
-  });
-
   it('getTableTitle() should return <string>', () => {
     expect(service.getTableTitle()).toBeInstanceOf(String);
   });

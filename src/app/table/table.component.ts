@@ -13,7 +13,6 @@ import { ITableRowData } from '@shared/interface/table.interface';
 })
 export class TableComponent implements OnInit {
   columnDefs: ColDef[];
-  frameworkComponents: any;
   getContextMenuItems: GetContextMenuItems;
   gridOptions: GridOptions;
   hasSelection$: Observable<boolean>;
@@ -23,7 +22,6 @@ export class TableComponent implements OnInit {
 
   constructor(@Self() private tableSrv: TableService) {
     this.columnDefs = this.tableSrv.getTableColumnDefs();
-    this.frameworkComponents = this.tableSrv.getTableFrameworkComponents();
     this.getContextMenuItems = this.tableSrv.getTableContextMenuItems.bind(this.tableSrv);
     this.gridOptions = this.tableSrv.getTableGridOptions();
     this.hasSelection$ = this.tableSrv.getTableHasSelection();

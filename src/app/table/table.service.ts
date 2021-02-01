@@ -11,13 +11,7 @@ import {
   SideBarDef,
 } from 'ag-grid-community';
 
-import {
-  CONTEXT_MENU,
-  TABLE_EFFECT_ACTIONS,
-  TABLE_GRID_CONFIG,
-  TABLE_RENDERERS,
-  TABLE_TITLE,
-} from '@shared/const/table.const';
+import { CONTEXT_MENU, TABLE_EFFECT_ACTIONS, TABLE_TITLE } from '@shared/const/table.const';
 import { IAppState } from '@shared/interface/app.interface';
 import { ITableRowData } from '@shared/interface/table.interface';
 import {
@@ -27,14 +21,11 @@ import {
   setIsLinkProp,
   setSelectedRowsCount,
 } from '@store/table';
-import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
-import { SelectionCellComponent } from './selection-cell/selection-cell.component';
-import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
-import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
+import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
 
 @Injectable()
 export class TableService {
-  constructor(private store: Store<IAppState>) {}
+  constructor(private store: Store<IAppState>, private tableConfigSrv: TableConfigHelper) {}
 
   setTableData(): void {
     this.store.dispatch({ type: TABLE_EFFECT_ACTIONS.loadTableData });
@@ -49,24 +40,27 @@ export class TableService {
   }
 
   getTableGridOptions(): GridOptions {
-    const gridOptions: any = { ...TABLE_GRID_CONFIG.gridOptions };
-    gridOptions.onPaginationChanged = this.paginationChangedHandler.bind(this);
-    gridOptions.onRowSelected = this.rowSelectedHandler.bind(this);
+    const initialGridOptions = this.tableConfigSrv.getTableGridOptions();
 
-    return gridOptions;
+    if (initialGridOptions) {
+      const gridOptions = { ...initialGridOptions };
+      gridOptions.onPaginationChanged = this.paginationChangedHandler.bind(this);
+      gridOptions.onRowSelected = this.rowSelectedHandler.bind(this);
+
+      return gridOptions;
+    }
+
+    return {};
   }
 
   getTableSideBar(): SideBarDef {
-    return { ...TABLE_GRID_CONFIG.sideBar };
-  }
+    const sideBar = this.tableConfigSrv.getTableSideBar();
 
-  getTableFrameworkComponents(): any {
-    return {
-      [TABLE_RENDERERS.thumbnail]: ThumbnailRendererComponent,
-      [TABLE_RENDERERS.selectionCell]: SelectionCellComponent,
-      [TABLE_RENDERERS.selectionHeader]: SelectionHeaderRendererComponent,
-      [TABLE_RENDERERS.toolPanel]: ToolpanelRendererComponent,
-    };
+    if (sideBar) {
+      return { ...sideBar };
+    }
+
+    return {};
   }
 
   getTableTitle(): string {
@@ -74,7 +68,13 @@ export class TableService {
   }
 
   getTableColumnDefs(): ColDef[] {
-    return TABLE_GRID_CONFIG.columnDefs;
+    const columnDefs = this.tableConfigSrv.getTableColumnDefs();
+
+    if (columnDefs) {
+      return [...columnDefs];
+    }
+
+    return [];
   }
 
   getTableContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {

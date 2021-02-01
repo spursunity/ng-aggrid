@@ -11,6 +11,7 @@ import { SelectionCellComponent } from './selection-cell/selection-cell.componen
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
 import { MaterialModule } from '../material/material.module';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
+import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
 
 @NgModule({
   declarations: [
@@ -22,5 +23,6 @@ import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-rende
     ToolpanelRendererComponent,
   ],
   imports: [CommonModule, TableRoutingModule, AgGridModule.withComponents([]), MaterialModule],
+  providers: [TableConfigHelper],
 })
 export class TableModule {}

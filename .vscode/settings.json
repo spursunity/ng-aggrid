@@ -4,5 +4,6 @@
   "prettier.ignorePath": "",
   "prettier.singleQuote": true,
   "prettier.useEditorConfig": false,
-  "files.insertFinalNewline": true
+  "files.insertFinalNewline": true,
+  "cSpell.words": ["Toolpanel", "Youtube", "ngrx"]
 }
