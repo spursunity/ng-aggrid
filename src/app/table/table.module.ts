@@ -11,7 +11,6 @@ import { SelectionCellComponent } from './selection-cell/selection-cell.componen
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
 import { MaterialModule } from '../material/material.module';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
-import { GetBooleanPipe } from '@shared/pipe/get-boolean.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { GetBooleanPipe } from '@shared/pipe/get-boolean.pipe';
     SelectionCellComponent,
     SelectionHeaderRendererComponent,
     ToolpanelRendererComponent,
-    GetBooleanPipe,
   ],
   imports: [CommonModule, TableRoutingModule, AgGridModule.withComponents([]), MaterialModule],
 })

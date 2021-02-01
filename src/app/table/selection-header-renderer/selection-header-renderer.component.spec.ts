@@ -4,7 +4,6 @@ import { SelectionHeaderRendererComponent } from './selection-header-renderer.co
 import { MaterialModule } from 'src/app/material/material.module';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from '@shared/interface/app.interface';
-import { GetBooleanPipe } from '@shared/pipe/get-boolean.pipe';
 
 describe('SelectionHeaderRendererComponent', () => {
   let component: SelectionHeaderRendererComponent;
@@ -21,7 +20,7 @@ describe('SelectionHeaderRendererComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SelectionHeaderRendererComponent, GetBooleanPipe],
+      declarations: [SelectionHeaderRendererComponent],
       imports: [MaterialModule],
       providers: [provideMockStore({ initialState })],
     }).compileComponents();

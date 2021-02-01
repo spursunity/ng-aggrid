@@ -1,5 +1,5 @@
 <mat-checkbox
   class="example-margin"
-  [checked]="checkboxState$ | async | getBoolean"
+  [checked]="(checkboxState$ | async) || false"
   (click)="changeRowsSelectionState()"
 ></mat-checkbox>
