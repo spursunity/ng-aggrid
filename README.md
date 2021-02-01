@@ -6,7 +6,7 @@
 
 ## Start project locally
 
-You should add youtube API token. Generate your own token. Create file `token.ts` in `/src/app/shared/const/` folder.
+You may add your own youtube API token. Just update my token in `/src/app/shared/const/token.ts` file.
 File content:
 
 ```typescript
