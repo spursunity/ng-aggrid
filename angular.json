@@ -20,6 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "./ng-aggrid",
             "outputPath": "dist/aggrid",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -49,7 +50,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -105,6 +106,12 @@
             "production": {
               "devServerTarget": "aggrid:serve:production"
             }
+          }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "./"
           }
         }
       }

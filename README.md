@@ -1,6 +1,8 @@
 # Aggrid
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.
+## Project on GitHub Pages:
+
+[Ag-grid table](https://spursunity.github.io/ng-aggrid)
 
 ## Start project locally
 
