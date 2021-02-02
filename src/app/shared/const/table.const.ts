@@ -1,12 +1,5 @@
 import { YOUTUBE_TOKEN } from './token';
 
-export const TABLE_RENDERERS = {
-  thumbnail: 'thumbnailRenderer',
-  selectionCell: 'selectionCellRenderer',
-  selectionHeader: 'selectionHeaderRenderer',
-  toolPanel: 'toolPanelRenderer',
-};
-
 export const TABLE_SELECTION_COLUMN_ID = 'checkbox';
 
 export const TABLE_TITLE = 'Youtube search ("John")';
