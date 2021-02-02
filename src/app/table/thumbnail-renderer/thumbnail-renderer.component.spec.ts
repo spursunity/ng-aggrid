@@ -26,10 +26,6 @@ describe('ThumbnailRendererComponent', () => {
     expect(component.imageData).toBeTruthy();
   });
 
-  it('should have property "videoLink"', () => {
-    expect(component.videoLink).toEqual('');
-  });
-
   it('should have image', () => {
     const html = fixture.nativeElement;
     expect(html.querySelector('img')).toBeTruthy();

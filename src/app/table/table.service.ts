@@ -11,10 +11,10 @@ import {
   SideBarDef,
 } from 'ag-grid-community';
 
-import { CONTEXT_MENU, TABLE_EFFECT_ACTIONS, TABLE_TITLE } from '@shared/const/table.const';
+import { CONTEXT_MENU, TABLE_EFFECT_ACTIONS, TABLE_TITLE, YOUTUBE_VIDEO_LINK } from '@shared/const/table.const';
 import { IAppState } from '@shared/interface/app.interface';
 import { ITableRowData } from '@shared/interface/table.interface';
-import { selectTableData, setAllRowsCount, setIsLinkProp, setSelectedRowsCount } from '@store/table';
+import { selectTableData, setAllRowsCount, setSelectedRowsCount } from '@store/table';
 import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
 
 @Injectable()
@@ -69,20 +69,15 @@ export class TableService {
 
   getTableContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
     const columnId = params.column?.getColId();
-    const isLink = params.node?.data?.thumbnail?.isLink;
     const defaultMenu = [...CONTEXT_MENU.defaultMenu];
     const advancedMenuItem = {
       name: CONTEXT_MENU.additionalItemName,
       action: () => {
         const id = params?.node?.data?.videoId;
-        const payload = {
-          videoId: id,
-          isLinkFlag: !isLink,
-        };
+        const url = id ? YOUTUBE_VIDEO_LINK.template.replace(YOUTUBE_VIDEO_LINK.replacement, id) : '';
 
-        this.store.dispatch(setIsLinkProp({ payload }));
+        window.open(url, '_blank');
       },
-      checked: isLink,
     };
 
     if (columnId === CONTEXT_MENU.columnIdWithAddItem) {

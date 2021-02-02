@@ -6,6 +6,7 @@ import { SelectionCellComponent } from 'src/app/table/selection-cell/selection-c
 import { SelectionHeaderRendererComponent } from 'src/app/table/selection-header-renderer/selection-header-renderer.component';
 import { ThumbnailRendererComponent } from 'src/app/table/thumbnail-renderer/thumbnail-renderer.component';
 import { ToolpanelRendererComponent } from 'src/app/table/toolpanel-renderer/toolpanel-renderer.component';
+import { VideoTitleRendererComponent } from 'src/app/table/video-title-renderer/video-title-renderer.component';
 
 @Injectable()
 export class TableConfigHelper {
@@ -20,7 +21,13 @@ export class TableConfigHelper {
     },
     { headerName: '', field: 'thumbnail', cellRendererFramework: ThumbnailRendererComponent, width: 120 },
     { headerName: 'Published on', field: 'publishedAt', flex: 1 },
-    { headerName: 'Video Title', field: 'title', tooltipValueGetter: (params: any) => params.value, flex: 3 },
+    {
+      headerName: 'Video Title',
+      field: 'title',
+      cellRendererFramework: VideoTitleRendererComponent,
+      tooltipValueGetter: (params: any) => params.value,
+      flex: 3,
+    },
     { headerName: 'Description', field: 'description', tooltipValueGetter: (params: any) => params.value, flex: 3 },
   ];
   private gridOptions: GridOptions = {

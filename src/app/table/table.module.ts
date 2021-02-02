@@ -12,6 +12,7 @@ import { SelectionHeaderRendererComponent } from './selection-header-renderer/se
 import { MaterialModule } from '../material/material.module';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
 import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
+import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
     SelectionCellComponent,
     SelectionHeaderRendererComponent,
     ToolpanelRendererComponent,
+    VideoTitleRendererComponent,
   ],
   imports: [CommonModule, TableRoutingModule, AgGridModule.withComponents([]), MaterialModule],
   providers: [TableConfigHelper],
