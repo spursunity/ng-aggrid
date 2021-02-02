@@ -51,6 +51,9 @@ export class TableConfigHelper {
   ];
   private gridOptions: GridOptions = {
     rowHeight: 90,
+    defaultColDef: {
+      menuTabs: ['generalMenuTab'],
+    },
   };
   private sideBar: SideBarDef = {
     toolPanels: [
