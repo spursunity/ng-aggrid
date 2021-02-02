@@ -14,13 +14,7 @@ import {
 import { CONTEXT_MENU, TABLE_EFFECT_ACTIONS, TABLE_TITLE } from '@shared/const/table.const';
 import { IAppState } from '@shared/interface/app.interface';
 import { ITableRowData } from '@shared/interface/table.interface';
-import {
-  selectSelectionState,
-  selectTableData,
-  setAllRowsCount,
-  setIsLinkProp,
-  setSelectedRowsCount,
-} from '@store/table';
+import { selectTableData, setAllRowsCount, setIsLinkProp, setSelectedRowsCount } from '@store/table';
 import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
 
 @Injectable()
@@ -33,10 +27,6 @@ export class TableService {
 
   getTableData(): Observable<ITableRowData[]> {
     return this.store.select(selectTableData);
-  }
-
-  getTableHasSelection(): Observable<boolean> {
-    return this.store.select(selectSelectionState);
   }
 
   getTableGridOptions(): GridOptions {
@@ -110,17 +100,11 @@ export class TableService {
   }
 
   private rowSelectedHandler(event: RowSelectedEvent): void {
-    const refreshParams = {
-      rowNodes: [event.node],
-      columns: ['checkbox'],
-      force: true,
-    };
     const selectedRowsCount = event.api.getSelectedRows()?.length || 0;
     const payload = {
       selectedRowsCount,
     };
 
-    event.api.refreshCells(refreshParams);
     this.store.dispatch(setSelectedRowsCount({ payload }));
   }
 }

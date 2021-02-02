@@ -15,7 +15,6 @@ export class TableComponent implements OnInit {
   columnDefs: ColDef[];
   getContextMenuItems: GetContextMenuItems;
   gridOptions: GridOptions;
-  hasSelection$: Observable<boolean>;
   rowData$: Observable<ITableRowData[]>;
   sideBar: SideBarDef;
   tableTitle: string;
@@ -24,7 +23,6 @@ export class TableComponent implements OnInit {
     this.columnDefs = this.tableSrv.getTableColumnDefs();
     this.getContextMenuItems = (params: GetContextMenuItemsParams) => this.tableSrv.getTableContextMenuItems(params);
     this.gridOptions = this.tableSrv.getTableGridOptions();
-    this.hasSelection$ = this.tableSrv.getTableHasSelection();
     this.rowData$ = this.tableSrv.getTableData();
     this.sideBar = this.tableSrv.getTableSideBar();
     this.tableTitle = this.tableSrv.getTableTitle();
