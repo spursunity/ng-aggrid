@@ -24,7 +24,11 @@ describe('TableComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [TableComponent],
       imports: [AppModule],
-      providers: [TableService, HttpHelperService, provideMockStore({ initialState })],
+      providers: [
+        TableService,
+        HttpHelperService,
+        provideMockStore({ initialState }),
+      ],
     }).compileComponents();
   });
 
@@ -45,7 +49,9 @@ describe('TableComponent', () => {
 
     expect(allSpans.length).toBeGreaterThanOrEqual(1);
 
-    const titleSpan = [...allSpans].find((elem: HTMLElement) => component.tableTitle === elem.textContent);
+    const titleSpan = [...allSpans].find(
+      (elem: HTMLElement) => component.tableTitle === elem.textContent
+    );
 
     expect(titleSpan).toBeTruthy();
   });
@@ -78,7 +84,6 @@ describe('TableComponent', () => {
     const cellElements = element.querySelectorAll('.ag-cell-value');
 
     expect(cellElements.length).toBeGreaterThan(1);
-    expect(cellElements[1].textContent).toEqual(publishedAt);
     expect(cellElements[3].textContent).toEqual(description);
   });
 });

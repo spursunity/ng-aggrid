@@ -13,6 +13,7 @@ import { MaterialModule } from '../material/material.module';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
 import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
 import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
+import { PublishedRendererComponent } from './published-renderer/published-renderer.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,14 @@ import { VideoTitleRendererComponent } from './video-title-renderer/video-title-
     SelectionHeaderRendererComponent,
     ToolpanelRendererComponent,
     VideoTitleRendererComponent,
+    PublishedRendererComponent,
   ],
-  imports: [CommonModule, TableRoutingModule, AgGridModule.withComponents([]), MaterialModule],
+  imports: [
+    CommonModule,
+    TableRoutingModule,
+    AgGridModule.withComponents([]),
+    MaterialModule,
+  ],
   providers: [TableConfigHelper],
 })
 export class TableModule {}
