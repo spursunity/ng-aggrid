@@ -5,5 +5,15 @@
   "prettier.singleQuote": true,
   "prettier.useEditorConfig": false,
   "files.insertFinalNewline": true,
-  "cSpell.words": ["Toolpanel", "Youtube", "ngrx"]
+  "cSpell.words": [
+    "Toolpanel",
+    "Youtube",
+    "aggrid",
+    "codelyzer",
+    "commitlint",
+    "devkit",
+    "ghpages",
+    "ngrx",
+    "preconnect"
+  ]
 }

@@ -11,17 +11,18 @@ import { appState } from './store';
 import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { MaterialModule } from './material/material.module';
 import { tableEffects } from '@store/table';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, PageNotFoundComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule,
     TableModule,
     StoreModule.forRoot(appState),
     EffectsModule.forRoot(tableEffects),
     MaterialModule,
+    AppRoutingModule,
   ],
   providers: [HttpHelperService],
   bootstrap: [AppComponent],
