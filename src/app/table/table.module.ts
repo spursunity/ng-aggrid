@@ -6,7 +6,6 @@ import 'ag-grid-enterprise';
 import { TableComponent } from './table.component';
 import { TableRoutingModule } from './table-routing.module';
 import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
-import { TableDataTransformPipe } from '@shared/pipe/table-data-transform.pipe';
 import { SelectionCellComponent } from './selection-cell/selection-cell.component';
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
 import { MaterialModule } from '../material/material.module';
@@ -20,7 +19,6 @@ import { DescriptionRendererComponent } from './description-renderer/description
   declarations: [
     TableComponent,
     ThumbnailRendererComponent,
-    TableDataTransformPipe,
     SelectionCellComponent,
     SelectionHeaderRendererComponent,
     ToolpanelRendererComponent,
