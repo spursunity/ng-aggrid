@@ -8,6 +8,7 @@ import { ThumbnailRendererComponent } from 'src/app/table/thumbnail-renderer/thu
 import { ToolpanelRendererComponent } from 'src/app/table/toolpanel-renderer/toolpanel-renderer.component';
 import { VideoTitleRendererComponent } from 'src/app/table/video-title-renderer/video-title-renderer.component';
 import { PublishedRendererComponent } from 'src/app/table/published-renderer/published-renderer.component';
+import { DescriptionRendererComponent } from 'src/app/table/description-renderer/description-renderer.component';
 
 @Injectable()
 export class TableConfigHelper {
@@ -42,7 +43,9 @@ export class TableConfigHelper {
     {
       headerName: 'Description',
       field: 'description',
+      cellRendererFramework: DescriptionRendererComponent,
       tooltipValueGetter: (params: any) => params.value,
+      wrapText: true,
       flex: 3,
     },
   ];

@@ -14,6 +14,7 @@ import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-rende
 import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
 import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
 import { PublishedRendererComponent } from './published-renderer/published-renderer.component';
+import { DescriptionRendererComponent } from './description-renderer/description-renderer.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { PublishedRendererComponent } from './published-renderer/published-rende
     ToolpanelRendererComponent,
     VideoTitleRendererComponent,
     PublishedRendererComponent,
+    DescriptionRendererComponent,
   ],
   imports: [
     CommonModule,

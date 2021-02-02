@@ -84,6 +84,5 @@ describe('TableComponent', () => {
     const cellElements = element.querySelectorAll('.ag-cell-value');
 
     expect(cellElements.length).toBeGreaterThan(1);
-    expect(cellElements[3].textContent).toEqual(description);
   });
 });
