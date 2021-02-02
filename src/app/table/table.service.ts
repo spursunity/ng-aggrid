@@ -44,8 +44,8 @@ export class TableService {
 
     if (initialGridOptions) {
       const gridOptions = { ...initialGridOptions };
-      gridOptions.onPaginationChanged = this.paginationChangedHandler.bind(this);
-      gridOptions.onRowSelected = this.rowSelectedHandler.bind(this);
+      gridOptions.onPaginationChanged = (event: PaginationChangedEvent) => this.paginationChangedHandler(event);
+      gridOptions.onRowSelected = (event: RowSelectedEvent) => this.rowSelectedHandler(event);
 
       return gridOptions;
     }

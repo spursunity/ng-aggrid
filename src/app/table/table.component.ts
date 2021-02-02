@@ -1,6 +1,6 @@
 import { Component, OnInit, Self } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ColDef, GetContextMenuItems, GridOptions, SideBarDef } from 'ag-grid-community';
+import { ColDef, GetContextMenuItems, GetContextMenuItemsParams, GridOptions, SideBarDef } from 'ag-grid-community';
 
 import { TableService } from './table.service';
 import { ITableRowData } from '@shared/interface/table.interface';
@@ -22,7 +22,7 @@ export class TableComponent implements OnInit {
 
   constructor(@Self() private tableSrv: TableService) {
     this.columnDefs = this.tableSrv.getTableColumnDefs();
-    this.getContextMenuItems = this.tableSrv.getTableContextMenuItems.bind(this.tableSrv);
+    this.getContextMenuItems = (params: GetContextMenuItemsParams) => this.tableSrv.getTableContextMenuItems(params);
     this.gridOptions = this.tableSrv.getTableGridOptions();
     this.hasSelection$ = this.tableSrv.getTableHasSelection();
     this.rowData$ = this.tableSrv.getTableData();
