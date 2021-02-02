@@ -79,7 +79,6 @@ describe('TableComponent', () => {
 
     expect(cellElements.length).toBeGreaterThan(1);
     expect(cellElements[1].textContent).toEqual(publishedAt);
-    expect(cellElements[2].textContent).toEqual(title);
     expect(cellElements[3].textContent).toEqual(description);
   });
 });

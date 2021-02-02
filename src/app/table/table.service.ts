@@ -11,30 +11,15 @@ import {
   SideBarDef,
 } from 'ag-grid-community';
 
-import {
-  CONTEXT_MENU,
-  TABLE_EFFECT_ACTIONS,
-  TABLE_GRID_CONFIG,
-  TABLE_RENDERERS,
-  TABLE_TITLE,
-} from '@shared/const/table.const';
+import { CONTEXT_MENU, TABLE_EFFECT_ACTIONS, TABLE_TITLE, YOUTUBE_VIDEO_LINK } from '@shared/const/table.const';
 import { IAppState } from '@shared/interface/app.interface';
 import { ITableRowData } from '@shared/interface/table.interface';
-import {
-  selectSelectionState,
-  selectTableData,
-  setAllRowsCount,
-  setIsLinkProp,
-  setSelectedRowsCount,
-} from '@store/table';
-import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
-import { SelectionCellComponent } from './selection-cell/selection-cell.component';
-import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
-import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
+import { selectTableData, setAllRowsCount, setSelectedRowsCount } from '@store/table';
+import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
 
 @Injectable()
 export class TableService {
-  constructor(private store: Store<IAppState>) {}
+  constructor(private store: Store<IAppState>, private tableConfigSrv: TableConfigHelper) {}
 
   setTableData(): void {
     this.store.dispatch({ type: TABLE_EFFECT_ACTIONS.loadTableData });
@@ -44,29 +29,28 @@ export class TableService {
     return this.store.select(selectTableData);
   }
 
-  getTableHasSelection(): Observable<boolean> {
-    return this.store.select(selectSelectionState);
-  }
-
   getTableGridOptions(): GridOptions {
-    const gridOptions: any = { ...TABLE_GRID_CONFIG.gridOptions };
-    gridOptions.onPaginationChanged = this.paginationChangedHandler.bind(this);
-    gridOptions.onRowSelected = this.rowSelectedHandler.bind(this);
+    const initialGridOptions = this.tableConfigSrv.getTableGridOptions();
 
-    return gridOptions;
+    if (initialGridOptions) {
+      const gridOptions = { ...initialGridOptions };
+      gridOptions.onPaginationChanged = (event: PaginationChangedEvent) => this.paginationChangedHandler(event);
+      gridOptions.onRowSelected = (event: RowSelectedEvent) => this.rowSelectedHandler(event);
+
+      return gridOptions;
+    }
+
+    return {};
   }
 
   getTableSideBar(): SideBarDef {
-    return { ...TABLE_GRID_CONFIG.sideBar };
-  }
+    const sideBar = this.tableConfigSrv.getTableSideBar();
 
-  getTableFrameworkComponents(): any {
-    return {
-      [TABLE_RENDERERS.thumbnail]: ThumbnailRendererComponent,
-      [TABLE_RENDERERS.selectionCell]: SelectionCellComponent,
-      [TABLE_RENDERERS.selectionHeader]: SelectionHeaderRendererComponent,
-      [TABLE_RENDERERS.toolPanel]: ToolpanelRendererComponent,
-    };
+    if (sideBar) {
+      return { ...sideBar };
+    }
+
+    return {};
   }
 
   getTableTitle(): string {
@@ -74,25 +58,26 @@ export class TableService {
   }
 
   getTableColumnDefs(): ColDef[] {
-    return TABLE_GRID_CONFIG.columnDefs;
+    const columnDefs = this.tableConfigSrv.getTableColumnDefs();
+
+    if (columnDefs) {
+      return [...columnDefs];
+    }
+
+    return [];
   }
 
   getTableContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
     const columnId = params.column?.getColId();
-    const isLink = params.node?.data?.thumbnail?.isLink;
     const defaultMenu = [...CONTEXT_MENU.defaultMenu];
     const advancedMenuItem = {
       name: CONTEXT_MENU.additionalItemName,
       action: () => {
         const id = params?.node?.data?.videoId;
-        const payload = {
-          videoId: id,
-          isLinkFlag: !isLink,
-        };
+        const url = id ? YOUTUBE_VIDEO_LINK.template.replace(YOUTUBE_VIDEO_LINK.replacement, id) : '';
 
-        this.store.dispatch(setIsLinkProp({ payload }));
+        window.open(url, '_blank');
       },
-      checked: isLink,
     };
 
     if (columnId === CONTEXT_MENU.columnIdWithAddItem) {
@@ -110,17 +95,11 @@ export class TableService {
   }
 
   private rowSelectedHandler(event: RowSelectedEvent): void {
-    const refreshParams = {
-      rowNodes: [event.node],
-      columns: ['checkbox'],
-      force: true,
-    };
     const selectedRowsCount = event.api.getSelectedRows()?.length || 0;
     const payload = {
       selectedRowsCount,
     };
 
-    event.api.refreshCells(refreshParams);
     this.store.dispatch(setSelectedRowsCount({ payload }));
   }
 }

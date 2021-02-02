@@ -11,7 +11,8 @@ import { SelectionCellComponent } from './selection-cell/selection-cell.componen
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
 import { MaterialModule } from '../material/material.module';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
-import { GetBooleanPipe } from '@shared/pipe/get-boolean.pipe';
+import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
+import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +22,9 @@ import { GetBooleanPipe } from '@shared/pipe/get-boolean.pipe';
     SelectionCellComponent,
     SelectionHeaderRendererComponent,
     ToolpanelRendererComponent,
-    GetBooleanPipe,
+    VideoTitleRendererComponent,
   ],
   imports: [CommonModule, TableRoutingModule, AgGridModule.withComponents([]), MaterialModule],
+  providers: [TableConfigHelper],
 })
 export class TableModule {}

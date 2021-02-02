@@ -5,11 +5,6 @@ import { ITableRowData } from '@shared/interface/table.interface';
 export const ADD_TABLE_DATA_ACTION = '[Table Component] Add Table Data';
 export const addTableData = createAction(ADD_TABLE_DATA_ACTION, props<{ payload: { content: ITableRowData[] } }>());
 
-export const setIsLinkProp = createAction(
-  '[Table Component] Set Is Link Prop To Row',
-  props<{ payload: { videoId: string; isLinkFlag: boolean } }>()
-);
-
 export const changeSelectionStatus = createAction(
   '[Table Component] Change Selection Status',
   props<{ payload: { hasSelection: boolean } }>()

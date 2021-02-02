@@ -8,15 +8,25 @@ import { ICellRendererParams } from 'ag-grid-community';
   styleUrls: ['./selection-cell.component.scss'],
 })
 export class SelectionCellComponent implements ICellRendererAngularComp {
-  checked = false;
+  private params!: ICellRendererParams;
+
+  get checked() {
+    const isSelected = this.params?.node?.isSelected();
+
+    return Boolean(isSelected);
+  }
+
   constructor() {}
 
   agInit(params: ICellRendererParams): void {
-    this.checked = params.node?.isSelected() || false;
+    this.params = params;
   }
 
   refresh(params: ICellRendererParams): boolean {
-    this.checked = params.node?.isSelected() || false;
-    return true;
+    return false;
+  }
+
+  selectRow() {
+    this.params?.node?.setSelected(!this.checked);
   }
 }

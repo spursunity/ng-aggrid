@@ -61,21 +61,6 @@ describe('TableService', () => {
     });
   });
 
-  it('getTableHasSelection() should return observer with "hasSelection" <boolean> property of Store', () => {
-    let hasSelection = initialState.table.hasSelection;
-    service.getTableHasSelection().subscribe((value: boolean) => {
-      expect(value).toEqual(hasSelection);
-    });
-
-    hasSelection = !hasSelection;
-    store.setState({
-      table: {
-        ...initialState.table,
-        hasSelection,
-      },
-    });
-  });
-
   it('getTableGridOptions() should return <GridOptions>', () => {
     expect(service.getTableGridOptions()).toBeInstanceOf(Object);
   });
@@ -85,10 +70,6 @@ describe('TableService', () => {
 
     expect(sideBar).toBeInstanceOf(Object);
     expect(sideBar.toolPanels).toBeInstanceOf(Array);
-  });
-
-  it('getTableFrameworkComponents() should return <Object>', () => {
-    expect(service.getTableFrameworkComponents()).toBeInstanceOf(Object);
   });
 
   it('getTableTitle() should return <string>', () => {

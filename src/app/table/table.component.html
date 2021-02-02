@@ -7,12 +7,10 @@
     [gridOptions]="gridOptions"
     [rowData]="rowData$ | async | tableDataTransform"
     [columnDefs]="columnDefs"
-    [frameworkComponents]="frameworkComponents"
     [allowContextMenuWithControlKey]="true"
     [getContextMenuItems]="getContextMenuItems"
     [rowSelection]="'multiple'"
-    [rowMultiSelectWithClick]="hasSelection$ | async | getBoolean"
-    [suppressRowClickSelection]="(hasSelection$ | async | getBoolean) === false"
+    [suppressRowClickSelection]="true"
     [sideBar]="sideBar"
   ></ag-grid-angular>
 </div>

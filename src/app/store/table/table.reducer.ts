@@ -1,13 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { ITableState } from '@shared/interface/table.interface';
-import {
-  addTableData,
-  changeSelectionStatus,
-  setAllRowsCount,
-  setIsLinkProp,
-  setSelectedRowsCount,
-} from './table.actions';
+import { addTableData, changeSelectionStatus, setAllRowsCount, setSelectedRowsCount } from './table.actions';
 
 const initialState: ITableState = {
   content: [],
@@ -22,25 +16,6 @@ const tableActionReducer = createReducer(
     ...state,
     content: [...payload.content],
   })),
-  on(setIsLinkProp, (state, { payload }) => {
-    const { content } = state;
-    const newContent = content.map((row) => {
-      if (row.videoId === payload.videoId) {
-        return {
-          ...row,
-          thumbnail: {
-            ...row.thumbnail,
-            isLink: payload.isLinkFlag,
-          },
-        };
-      }
-      return { ...row };
-    });
-    return {
-      ...state,
-      content: [...newContent],
-    };
-  }),
   on(changeSelectionStatus, (state, { payload }) => ({
     ...state,
     hasSelection: payload.hasSelection,
