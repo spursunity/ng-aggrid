@@ -14,7 +14,7 @@ export interface ITableRowData {
   publishedAt: Date | string;
   title: string;
   description: string;
-  videoId: string;
+  videoLink: string;
 }
 
 /**

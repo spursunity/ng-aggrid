@@ -24,7 +24,11 @@ describe('TableService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
-      providers: [TableService, HttpHelperService, provideMockStore({ initialState })],
+      providers: [
+        TableService,
+        HttpHelperService,
+        provideMockStore({ initialState }),
+      ],
     });
     store = TestBed.inject(MockStore);
     service = TestBed.inject(TableService);
@@ -50,7 +54,7 @@ describe('TableService', () => {
           width: 0,
           url: '',
         },
-        videoId: '',
+        videoLink: '',
       },
     ];
     store.setState({
@@ -84,7 +88,9 @@ describe('TableService', () => {
   });
 
   it('getTableContextMenuItems() should return <(string | MenuItemDef)[]>', () => {
-    const contextMenuItems = service.getTableContextMenuItems({} as GetContextMenuItemsParams);
+    const contextMenuItems = service.getTableContextMenuItems(
+      {} as GetContextMenuItemsParams
+    );
 
     expect(contextMenuItems).toBeInstanceOf(Array);
     expect(contextMenuItems.length).toEqual(CONTEXT_MENU.defaultMenu.length);

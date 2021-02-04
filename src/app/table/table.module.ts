@@ -10,7 +10,7 @@ import { SelectionCellComponent } from './selection-cell/selection-cell.componen
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
 import { MaterialModule } from '../material/material.module';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
-import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
+import { TableHelperService } from '@shared/helper/table-helper.service';
 import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
 import { PublishedRendererComponent } from './published-renderer/published-renderer.component';
 import { DescriptionRendererComponent } from './description-renderer/description-renderer.component';
@@ -32,6 +32,6 @@ import { DescriptionRendererComponent } from './description-renderer/description
     AgGridModule.withComponents([]),
     MaterialModule,
   ],
-  providers: [TableConfigHelper],
+  providers: [TableHelperService],
 })
 export class TableModule {}

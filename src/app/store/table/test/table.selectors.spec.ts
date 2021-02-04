@@ -28,7 +28,7 @@ describe('TableSelectors', () => {
           publishedAt: new Date(),
           title: 'title1',
           description: 'description1',
-          videoId: 'videoId1',
+          videoLink: 'videoLink1',
         },
         {
           thumbnail: {
@@ -39,7 +39,7 @@ describe('TableSelectors', () => {
           publishedAt: new Date(),
           title: 'title2',
           description: 'description2',
-          videoId: 'videoId2',
+          videoLink: 'videoLink2',
         },
       ],
       hasSelection,

@@ -3,7 +3,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { SelectionCellComponent } from './selection-cell.component';
 import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
-import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
+import { TableHelperService } from '@shared/helper/table-helper.service';
 import { IAppState } from '@shared/interface/app.interface';
 import { AppModule } from 'src/app/app.module';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -27,7 +27,7 @@ describe('SelectionCellComponent', () => {
           publishedAt: new Date(),
           title: 'title',
           description: 'description',
-          videoId: 'videoId',
+          videoLink: 'videoLink',
         },
       ],
       hasSelection: true,
@@ -41,7 +41,7 @@ describe('SelectionCellComponent', () => {
       declarations: [TableComponent, SelectionCellComponent],
       imports: [AppModule, MaterialModule],
       providers: [
-        TableConfigHelper,
+        TableHelperService,
         TableService,
         provideMockStore({ initialState }),
       ],

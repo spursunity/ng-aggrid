@@ -30,7 +30,7 @@ describe('TableReducer', () => {
           publishedAt: new Date(),
           title: 'title',
           description: 'description',
-          videoId: 'videoId',
+          videoLink: 'videoLink',
         },
       ];
       const newState = {

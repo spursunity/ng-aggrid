@@ -1,17 +1,29 @@
 import { Injectable } from '@angular/core';
 import { ColDef, GridOptions, SideBarDef } from 'ag-grid-community';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
+import {
+  TABLE_SELECTION_COLUMN_ID,
+  YOUTUBE_DATA_URL,
+  YOUTUBE_VIDEO_LINK,
+} from '@shared/const/table.const';
+import {
+  IResponseTableData,
+  IResponseTableDataItem,
+  ITableRowData,
+} from '@shared/interface/table.interface';
+import { DescriptionRendererComponent } from 'src/app/table/description-renderer/description-renderer.component';
+import { HttpHelperService } from './http-helper.service';
+import { PublishedRendererComponent } from 'src/app/table/published-renderer/published-renderer.component';
 import { SelectionCellComponent } from 'src/app/table/selection-cell/selection-cell.component';
 import { SelectionHeaderRendererComponent } from 'src/app/table/selection-header-renderer/selection-header-renderer.component';
 import { ThumbnailRendererComponent } from 'src/app/table/thumbnail-renderer/thumbnail-renderer.component';
 import { ToolpanelRendererComponent } from 'src/app/table/toolpanel-renderer/toolpanel-renderer.component';
 import { VideoTitleRendererComponent } from 'src/app/table/video-title-renderer/video-title-renderer.component';
-import { PublishedRendererComponent } from 'src/app/table/published-renderer/published-renderer.component';
-import { DescriptionRendererComponent } from 'src/app/table/description-renderer/description-renderer.component';
 
 @Injectable()
-export class TableConfigHelper {
+export class TableHelperService {
   private columnDefs: ColDef[] = [
     {
       headerName: 'Select all',
@@ -67,7 +79,7 @@ export class TableConfigHelper {
     ],
   };
 
-  constructor() {}
+  constructor(private httpHelper: HttpHelperService) {}
 
   getTableColumnDefs(): ColDef[] {
     return this.columnDefs;
@@ -79,5 +91,28 @@ export class TableConfigHelper {
 
   getTableSideBar(): SideBarDef {
     return this.sideBar;
+  }
+
+  getYoutubeAPIData(): Observable<{ content: ITableRowData[] }> {
+    return this.httpHelper.httpGetRequest(YOUTUBE_DATA_URL).pipe(
+      map((response: IResponseTableData): { content: ITableRowData[] } => ({
+        content: (response?.items || []).map(
+          ({ snippet, id }: IResponseTableDataItem) => ({
+            thumbnail: snippet.thumbnails?.default,
+            publishedAt: snippet.publishedAt,
+            title: snippet.title,
+            description: snippet.description,
+            videoLink: this.getVideoLink(id.videoId),
+          })
+        ),
+      }))
+    );
+  }
+
+  private getVideoLink(videoId: string = ''): string {
+    return YOUTUBE_VIDEO_LINK.template.replace(
+      YOUTUBE_VIDEO_LINK.replacement,
+      videoId
+    );
   }
 }

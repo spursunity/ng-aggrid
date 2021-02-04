@@ -74,7 +74,7 @@ describe('TableComponent', () => {
         publishedAt,
         title,
         description,
-        videoId: 'string',
+        videoLink: 'string',
       },
     ];
 

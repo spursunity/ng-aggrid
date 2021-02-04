@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { YOUTUBE_VIDEO_LINK } from '@shared/const/table.const';
-
 @Component({
   selector: 'app-video-title-renderer',
   templateUrl: './video-title-renderer.component.html',
@@ -16,10 +14,8 @@ export class VideoTitleRendererComponent implements ICellRendererAngularComp {
   constructor() {}
 
   agInit(params: ICellRendererParams): void {
-    const videoId = params.data?.videoId;
-
     this.videoTitle = params.data?.title || '';
-    this.videoLink = videoId ? YOUTUBE_VIDEO_LINK.template.replace(YOUTUBE_VIDEO_LINK.replacement, videoId) : '';
+    this.videoLink = params.data?.videoLink;
   }
 
   refresh(params: ICellRendererParams): boolean {

@@ -11,15 +11,27 @@ import {
   SideBarDef,
 } from 'ag-grid-community';
 
-import { CONTEXT_MENU, TABLE_EFFECT_ACTIONS, TABLE_TITLE, YOUTUBE_VIDEO_LINK } from '@shared/const/table.const';
+import {
+  CONTEXT_MENU,
+  TABLE_EFFECT_ACTIONS,
+  TABLE_TITLE,
+  YOUTUBE_VIDEO_LINK,
+} from '@shared/const/table.const';
 import { IAppState } from '@shared/interface/app.interface';
 import { ITableRowData } from '@shared/interface/table.interface';
-import { selectTableData, setAllRowsCount, setSelectedRowsCount } from '@store/table';
-import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
+import {
+  selectTableData,
+  setAllRowsCount,
+  setSelectedRowsCount,
+} from '@store/table';
+import { TableHelperService } from '@shared/helper/table-helper.service';
 
 @Injectable()
 export class TableService {
-  constructor(private store: Store<IAppState>, private tableConfigSrv: TableConfigHelper) {}
+  constructor(
+    private store: Store<IAppState>,
+    private tableConfigSrv: TableHelperService
+  ) {}
 
   setTableData(): void {
     this.store.dispatch({ type: TABLE_EFFECT_ACTIONS.loadTableData });
@@ -34,8 +46,10 @@ export class TableService {
 
     if (initialGridOptions) {
       const gridOptions = { ...initialGridOptions };
-      gridOptions.onPaginationChanged = (event: PaginationChangedEvent) => this.paginationChangedHandler(event);
-      gridOptions.onRowSelected = (event: RowSelectedEvent) => this.rowSelectedHandler(event);
+      gridOptions.onPaginationChanged = (event: PaginationChangedEvent) =>
+        this.paginationChangedHandler(event);
+      gridOptions.onRowSelected = (event: RowSelectedEvent) =>
+        this.rowSelectedHandler(event);
 
       return gridOptions;
     }
@@ -67,14 +81,15 @@ export class TableService {
     return [];
   }
 
-  getTableContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
+  getTableContextMenuItems(
+    params: GetContextMenuItemsParams
+  ): (string | MenuItemDef)[] {
     const columnId = params.column?.getColId();
     const defaultMenu = [...CONTEXT_MENU.defaultMenu];
     const advancedMenuItem = {
       name: CONTEXT_MENU.additionalItemName,
       action: () => {
-        const id = params?.node?.data?.videoId;
-        const url = id ? YOUTUBE_VIDEO_LINK.template.replace(YOUTUBE_VIDEO_LINK.replacement, id) : '';
+        const url = params?.node?.data?.videoLink;
 
         window.open(url, '_blank');
       },

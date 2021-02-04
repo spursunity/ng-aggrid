@@ -10,7 +10,7 @@ import { CHANGE_SELECTION_STATUS } from '@store/table';
 import { TableComponent } from '../table.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AppModule } from 'src/app/app.module';
-import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
+import { TableHelperService } from '@shared/helper/table-helper.service';
 import { TableService } from '../table.service';
 
 describe('ToolpanelRendererService', () => {
@@ -32,7 +32,7 @@ describe('ToolpanelRendererService', () => {
       declarations: [TableComponent],
       imports: [AppModule, MaterialModule],
       providers: [
-        TableConfigHelper,
+        TableHelperService,
         TableService,
         ToolpanelRendererService,
         provideMockStore({ initialState }),
