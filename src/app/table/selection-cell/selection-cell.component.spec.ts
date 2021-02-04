@@ -9,32 +9,14 @@ import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
 import { TableComponent } from '../table.component';
 import { TableHelperService } from '@shared/helper/table-helper.service';
 import { TableService } from '../table.service';
+import { mockData } from '@shared/const/mock';
 
 describe('SelectionCellComponent', () => {
   let component: SelectionCellComponent;
   let tableComponent: TableComponent;
   let tableFixture: ComponentFixture<TableComponent>;
   let html: HTMLElement;
-  const initialState: IAppState = {
-    table: {
-      content: [
-        {
-          thumbnail: {
-            url: 'url',
-            width: 100,
-            height: 100,
-          },
-          publishedAt: new Date(),
-          title: 'title',
-          description: 'description',
-          videoLink: 'videoLink',
-        },
-      ],
-      hasSelection: true,
-      allRowsCount: 0,
-      selectedRowsCount: 0,
-    },
-  };
+  const initialState: IAppState = mockData.getInitialStateWithContent(2);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

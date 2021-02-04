@@ -9,6 +9,7 @@ import { SelectionHeaderRendererComponent } from './selection-header-renderer.co
 import { TableComponent } from '../table.component';
 import { TableHelperService } from '@shared/helper/table-helper.service';
 import { TableService } from '../table.service';
+import { mockData } from '@shared/const/mock';
 
 describe('SelectionHeaderRendererComponent', () => {
   let component: SelectionHeaderRendererComponent;
@@ -16,26 +17,7 @@ describe('SelectionHeaderRendererComponent', () => {
   let tableComponent: TableComponent;
   let tableFixture: ComponentFixture<TableComponent>;
   let store: MockStore;
-  const initialState: IAppState = {
-    table: {
-      allRowsCount: 0,
-      content: [
-        {
-          thumbnail: {
-            url: 'url',
-            width: 100,
-            height: 100,
-          },
-          publishedAt: new Date(),
-          title: 'title',
-          description: 'description',
-          videoLink: 'videoLink',
-        },
-      ],
-      hasSelection: false,
-      selectedRowsCount: 0,
-    },
-  };
+  const initialState: IAppState = mockData.getInitialStateWithContent(3);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

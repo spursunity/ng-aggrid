@@ -8,18 +8,12 @@ import { AppModule } from '../app.module';
 import { ITableRowData } from '@shared/interface/table.interface';
 import { GetContextMenuItemsParams } from 'ag-grid-community';
 import { CONTEXT_MENU } from '@shared/const/table.const';
+import { mockData } from '@shared/const/mock';
 
 describe('TableService', () => {
   let service: TableService;
   let store: MockStore;
-  const initialState: IAppState = {
-    table: {
-      content: [],
-      hasSelection: false,
-      allRowsCount: 0,
-      selectedRowsCount: 0,
-    },
-  };
+  const initialState: IAppState = mockData.getEmptyInitialState();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,19 +38,7 @@ describe('TableService', () => {
       expect(value.length).toEqual(content.length);
     });
 
-    content = [
-      {
-        title: '',
-        description: '',
-        publishedAt: new Date(),
-        thumbnail: {
-          height: 0,
-          width: 0,
-          url: '',
-        },
-        videoLink: '',
-      },
-    ];
+    content = mockData.getInitialStateWithContent(1).table.content;
     store.setState({
       table: {
         ...initialState.table,

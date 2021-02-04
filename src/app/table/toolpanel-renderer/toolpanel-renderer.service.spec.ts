@@ -12,20 +12,14 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { AppModule } from 'src/app/app.module';
 import { TableHelperService } from '@shared/helper/table-helper.service';
 import { TableService } from '../table.service';
+import { mockData } from '@shared/const/mock';
 
 describe('ToolpanelRendererService', () => {
   let service: ToolpanelRendererService;
   let store: MockStore;
   let tableComponent: TableComponent;
   let tableFixture: ComponentFixture<TableComponent>;
-  const initialState: IAppState = {
-    table: {
-      content: [],
-      hasSelection: false,
-      allRowsCount: 0,
-      selectedRowsCount: 0,
-    },
-  };
+  const initialState: IAppState = mockData.getEmptyInitialState();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

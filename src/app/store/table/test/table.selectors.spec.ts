@@ -1,3 +1,4 @@
+import { mockData } from '@shared/const/mock';
 import { ITableState } from '@shared/interface/table.interface';
 import {
   selectAllRowsCount,
@@ -12,39 +13,7 @@ describe('TableSelectors', () => {
   let secondTitle: string;
 
   beforeEach(() => {
-    const allRowsCount = 101;
-    const selectedRowsCount = 38;
-    const hasSelection = true;
-
-    initialState = {
-      content: [
-        {
-          thumbnail: {
-            url: 'url1',
-            width: 101,
-            height: 101,
-          },
-          publishedAt: new Date(),
-          title: 'title1',
-          description: 'description1',
-          videoLink: 'videoLink1',
-        },
-        {
-          thumbnail: {
-            url: 'url2',
-            width: 202,
-            height: 202,
-          },
-          publishedAt: new Date(),
-          title: 'title2',
-          description: 'description2',
-          videoLink: 'videoLink2',
-        },
-      ],
-      hasSelection,
-      allRowsCount,
-      selectedRowsCount,
-    };
+    initialState = mockData.getInitialStateWithContent(3, true).table;
 
     contentSize = initialState.content?.length;
     secondTitle = initialState.content[1]?.title;
