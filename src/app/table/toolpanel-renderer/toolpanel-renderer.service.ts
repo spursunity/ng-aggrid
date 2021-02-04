@@ -39,7 +39,6 @@ export class ToolpanelRendererService {
   getHasSelection(): Observable<boolean> {
     return this.store.select(selectSelectionState).pipe(
       tap((hasSelection) => {
-        console.log('tap after delay');
         this.withSelection = hasSelection;
         this.changeSelectionColumnVisibility(hasSelection);
         this.isLoading$.next(false);
