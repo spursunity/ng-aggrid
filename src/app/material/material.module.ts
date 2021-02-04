@@ -5,29 +5,32 @@ import {
   MatCheckboxModule,
   MAT_CHECKBOX_DEFAULT_OPTIONS,
 } from '@angular/material/checkbox';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
-import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   imports: [
     CommonModule,
-    MatCheckboxModule,
-    MatToolbarModule,
     MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
     MatDividerModule,
     MatListModule,
-    MatCardModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
   ],
   exports: [
-    MatCheckboxModule,
-    MatToolbarModule,
     MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
     MatDividerModule,
     MatListModule,
-    MatCardModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
   ],
   providers: [
     {
