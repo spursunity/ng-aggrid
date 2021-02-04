@@ -5,7 +5,7 @@
   <ag-grid-angular
     class="ag-theme-alpine grid-comp"
     [gridOptions]="gridOptions"
-    [rowData]="rowData$ | async | tableDataTransform"
+    [rowData]="rowData$ | async"
     [columnDefs]="columnDefs"
     [allowContextMenuWithControlKey]="true"
     [getContextMenuItems]="getContextMenuItems"

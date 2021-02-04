@@ -3,10 +3,15 @@ import { createAction, props } from '@ngrx/store';
 import { ITableRowData } from '@shared/interface/table.interface';
 
 export const ADD_TABLE_DATA_ACTION = '[Table Component] Add Table Data';
-export const addTableData = createAction(ADD_TABLE_DATA_ACTION, props<{ payload: { content: ITableRowData[] } }>());
+export const CHANGE_SELECTION_STATUS =
+  '[Table Component] Change Selection Status';
+export const addTableData = createAction(
+  ADD_TABLE_DATA_ACTION,
+  props<{ payload: { content: ITableRowData[] } }>()
+);
 
 export const changeSelectionStatus = createAction(
-  '[Table Component] Change Selection Status',
+  CHANGE_SELECTION_STATUS,
   props<{ payload: { hasSelection: boolean } }>()
 );
 

@@ -1,13 +1,23 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { Action } from '@ngrx/store';
+import { IToolPanelParams } from 'ag-grid-community';
+import { filter, take } from 'rxjs/operators';
 
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
 import { IAppState } from '@shared/interface/app.interface';
-import { selectSelectionState } from '@store/table';
+import { CHANGE_SELECTION_STATUS } from '@store/table';
+import { TableComponent } from '../table.component';
+import { MaterialModule } from 'src/app/material/material.module';
+import { AppModule } from 'src/app/app.module';
+import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
+import { TableService } from '../table.service';
 
 describe('ToolpanelRendererService', () => {
   let service: ToolpanelRendererService;
   let store: MockStore;
+  let tableComponent: TableComponent;
+  let tableFixture: ComponentFixture<TableComponent>;
   const initialState: IAppState = {
     table: {
       content: [],
@@ -17,12 +27,23 @@ describe('ToolpanelRendererService', () => {
     },
   };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [ToolpanelRendererService, provideMockStore({ initialState })],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [TableComponent],
+      imports: [AppModule, MaterialModule],
+      providers: [
+        TableConfigHelper,
+        TableService,
+        ToolpanelRendererService,
+        provideMockStore({ initialState }),
+      ],
     });
     store = TestBed.inject(MockStore);
     service = TestBed.inject(ToolpanelRendererService);
+    tableFixture = TestBed.createComponent(TableComponent);
+    tableComponent = tableFixture.componentInstance;
+    tableFixture.detectChanges();
+    await tableFixture.whenStable();
   });
 
   it('should be created', () => {
@@ -35,9 +56,12 @@ describe('ToolpanelRendererService', () => {
 
   it('getAllRowsCount() should return observer with "allRowsCount" <number> property of Store', () => {
     let allRowsCount = initialState.table.allRowsCount;
-    service.getAllRowsCount().subscribe((value: number) => {
-      expect(value).toEqual(allRowsCount);
-    });
+    service
+      .getAllRowsCount()
+      .pipe(take(1))
+      .subscribe((value: number) => {
+        expect(value).toEqual(allRowsCount);
+      });
 
     allRowsCount = 50;
     store.setState({
@@ -50,9 +74,12 @@ describe('ToolpanelRendererService', () => {
 
   it('getHasSelection() should return observer with "hasSelection" <boolean> property of Store', () => {
     let hasSelection = initialState.table.hasSelection;
-    service.getHasSelection().subscribe((value: boolean) => {
-      expect(value).toEqual(hasSelection);
-    });
+    service
+      .getHasSelection()
+      .pipe(take(1))
+      .subscribe((value: boolean) => {
+        expect(value).toEqual(hasSelection);
+      });
 
     hasSelection = !hasSelection;
     store.setState({
@@ -63,11 +90,15 @@ describe('ToolpanelRendererService', () => {
     });
   });
 
-  it('getSelectedRowsCount() should return observer with "selectedRowsCount" <number> property of Store', () => {
+  it('getSelectedRowsCount() should return observer with "selectedRowsCount" <number> property of Store', async (done) => {
     let selectedRowsCount = initialState.table.selectedRowsCount;
-    service.getSelectedRowsCount().subscribe((value: number) => {
-      expect(value).toEqual(selectedRowsCount);
-    });
+    service
+      .getSelectedRowsCount()
+      .pipe(take(1))
+      .subscribe((value: number) => {
+        expect(value).toEqual(selectedRowsCount);
+        done();
+      });
 
     selectedRowsCount = 10;
     store.setState({
@@ -76,5 +107,38 @@ describe('ToolpanelRendererService', () => {
         selectedRowsCount,
       },
     });
+  });
+
+  it('switchSelection() should change "withSelection" value', async (done) => {
+    const initialWithSelection = service.withSelection;
+    let dispatched = false;
+
+    service
+      .getHasSelection()
+      .pipe(
+        filter(() => dispatched),
+        take(1)
+      )
+      .subscribe((value: boolean) => {
+        expect(value).toEqual(service.withSelection);
+        expect(service.withSelection).not.toEqual(initialWithSelection);
+        done();
+      });
+
+    store.scannedActions$
+      .pipe(
+        filter((action: Action) => action.type === CHANGE_SELECTION_STATUS),
+        take(1)
+      )
+      .subscribe((action: any) => {
+        dispatched = true;
+        store.setState({
+          table: {
+            ...initialState.table,
+            hasSelection: action?.payload?.hasSelection,
+          },
+        });
+      });
+    service.switchSelection(tableComponent.gridOptions as IToolPanelParams);
   });
 });
