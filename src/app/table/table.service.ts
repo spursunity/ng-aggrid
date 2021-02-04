@@ -14,20 +14,84 @@ import {
 import {
   CONTEXT_MENU,
   TABLE_EFFECT_ACTIONS,
+  TABLE_SELECTION_COLUMN_ID,
   TABLE_TITLE,
-  YOUTUBE_VIDEO_LINK,
 } from '@shared/const/table.const';
-import { IAppState } from '@shared/interface/app.interface';
-import { ITableRowData } from '@shared/interface/table.interface';
 import {
   selectTableData,
   setAllRowsCount,
   setSelectedRowsCount,
 } from '@store/table';
+import { DescriptionRendererComponent } from './description-renderer/description-renderer.component';
+import { IAppState } from '@shared/interface/app.interface';
+import { ITableRowData } from '@shared/interface/table.interface';
+import { PublishedRendererComponent } from './published-renderer/published-renderer.component';
+import { SelectionCellComponent } from './selection-cell/selection-cell.component';
+import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
 import { TableHelperService } from '@shared/helper/table-helper.service';
+import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
+import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
+import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
 
 @Injectable()
 export class TableService {
+  private columnDefs: ColDef[] = [
+    {
+      headerName: 'Select all',
+      field: TABLE_SELECTION_COLUMN_ID,
+      cellRendererFramework: SelectionCellComponent,
+      headerComponentFramework: SelectionHeaderRendererComponent,
+      initialHide: true,
+      width: 30,
+    },
+    {
+      headerName: '',
+      field: 'thumbnail',
+      cellRendererFramework: ThumbnailRendererComponent,
+      width: 120,
+    },
+    {
+      headerName: 'Published on',
+      field: 'publishedAt',
+      cellRendererFramework: PublishedRendererComponent,
+      flex: 1,
+    },
+    {
+      headerName: 'Video Title',
+      field: 'title',
+      cellRendererFramework: VideoTitleRendererComponent,
+      tooltipValueGetter: (params: any) => params.value,
+      flex: 3,
+    },
+    {
+      headerName: 'Description',
+      field: 'description',
+      cellRendererFramework: DescriptionRendererComponent,
+      tooltipValueGetter: (params: any) => params.value,
+      wrapText: true,
+      flex: 3,
+    },
+  ];
+
+  private gridOptions: GridOptions = {
+    rowHeight: 90,
+    defaultColDef: {
+      menuTabs: ['generalMenuTab'],
+    },
+  };
+
+  private sideBar: SideBarDef = {
+    toolPanels: [
+      {
+        id: 'selection',
+        labelDefault: 'Selection',
+        labelKey: 'selection',
+        toolPanelFramework: ToolpanelRendererComponent,
+        iconKey: 'tick',
+      },
+    ],
+  };
+
   constructor(
     private store: Store<IAppState>,
     private tableConfigSrv: TableHelperService
@@ -42,7 +106,7 @@ export class TableService {
   }
 
   getTableGridOptions(): GridOptions {
-    const initialGridOptions = this.tableConfigSrv.getTableGridOptions();
+    const initialGridOptions = { ...this.gridOptions };
 
     if (initialGridOptions) {
       const gridOptions = { ...initialGridOptions };
@@ -58,13 +122,7 @@ export class TableService {
   }
 
   getTableSideBar(): SideBarDef {
-    const sideBar = this.tableConfigSrv.getTableSideBar();
-
-    if (sideBar) {
-      return { ...sideBar };
-    }
-
-    return {};
+    return { ...this.sideBar };
   }
 
   getTableTitle(): string {
@@ -72,13 +130,7 @@ export class TableService {
   }
 
   getTableColumnDefs(): ColDef[] {
-    const columnDefs = this.tableConfigSrv.getTableColumnDefs();
-
-    if (columnDefs) {
-      return [...columnDefs];
-    }
-
-    return [];
+    return [...this.columnDefs];
   }
 
   getTableContextMenuItems(
