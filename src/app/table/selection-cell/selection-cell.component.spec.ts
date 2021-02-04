@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { AppModule } from 'src/app/app.module';
+import { IAppState } from '@shared/interface/app.interface';
+import { MaterialModule } from 'src/app/material/material.module';
 import { SelectionCellComponent } from './selection-cell.component';
 import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
-import { TableHelperService } from '@shared/helper/table-helper.service';
-import { IAppState } from '@shared/interface/app.interface';
-import { AppModule } from 'src/app/app.module';
-import { MaterialModule } from 'src/app/material/material.module';
 import { TableComponent } from '../table.component';
+import { TableHelperService } from '@shared/helper/table-helper.service';
 import { TableService } from '../table.service';
 
 describe('SelectionCellComponent', () => {
