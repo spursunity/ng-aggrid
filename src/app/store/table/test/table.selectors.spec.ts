@@ -1,7 +1,6 @@
 import { ITableState } from '@shared/interface/table.interface';
 import {
   selectAllRowsCount,
-  selectIsAllRowsSelected,
   selectSelectedRowsCount,
   selectSelectionState,
   selectTableData,
@@ -75,13 +74,5 @@ describe('TableSelectors', () => {
     const result = selectSelectedRowsCount.projector(initialState);
 
     expect(result).toEqual(initialState.selectedRowsCount);
-  });
-
-  it('should select comparison of all and selected rows', () => {
-    const result = selectIsAllRowsSelected.projector(initialState);
-    const isAllSelected =
-      initialState.allRowsCount === initialState.selectedRowsCount;
-
-    expect(result).toEqual(isAllSelected);
   });
 });

@@ -27,8 +27,3 @@ export const selectSelectedRowsCount = createSelector(
   selectTableDataFeature,
   (state: ITableState) => state.selectedRowsCount
 );
-
-export const selectIsAllRowsSelected = createSelector(
-  selectTableDataFeature,
-  (state: ITableState) => state.allRowsCount === state.selectedRowsCount
-);

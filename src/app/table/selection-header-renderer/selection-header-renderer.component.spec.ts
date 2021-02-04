@@ -24,10 +24,10 @@ describe('SelectionHeaderRendererComponent', () => {
       imports: [MaterialModule],
       providers: [provideMockStore({ initialState })],
     }).compileComponents();
-    store = TestBed.inject(MockStore);
   });
 
   beforeEach(() => {
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(SelectionHeaderRendererComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
