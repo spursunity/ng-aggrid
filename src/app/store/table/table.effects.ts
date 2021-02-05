@@ -8,13 +8,16 @@ import { TABLE_EFFECT_ACTIONS } from '@shared/const/table.const';
 import { TableHelperService } from '@shared/helper/table-helper.service';
 
 @Injectable()
-class TableEffects {
+export class TableEffects {
   loadTableData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TABLE_EFFECT_ACTIONS.loadTableData),
       mergeMap(() =>
         this.tableHelper.getYoutubeAPIData().pipe(
-          map((payload) => ({ type: ADD_TABLE_DATA_ACTION, payload })),
+          map((payload = { content: [] }) => ({
+            type: ADD_TABLE_DATA_ACTION,
+            payload,
+          })),
           catchError(() => EMPTY)
         )
       )
