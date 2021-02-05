@@ -7,7 +7,7 @@ import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { AppModule } from '../app.module';
 import { ITableRowData } from '@shared/interface/table.interface';
 import { GetContextMenuItemsParams } from 'ag-grid-community';
-import { CONTEXT_MENU } from '@shared/const/table.const';
+import { CONTEXT_MENU, TABLE_TITLE } from '@shared/const/table.const';
 import { mockData } from '@shared/const/mock';
 
 describe('TableService', () => {
@@ -48,7 +48,11 @@ describe('TableService', () => {
   });
 
   it('getTableGridOptions() should return <GridOptions>', () => {
-    expect(service.getTableGridOptions()).toBeInstanceOf(Object);
+    const gridOptions = service.getTableGridOptions();
+
+    expect(gridOptions).toBeInstanceOf(Object);
+    expect(gridOptions.onPaginationChanged).toBeTruthy(Object);
+    expect(gridOptions.onRowSelected).toBeTruthy(Object);
   });
 
   it('getTableSideBar() should return <SideBarDef>', () => {
@@ -59,7 +63,7 @@ describe('TableService', () => {
   });
 
   it('getTableTitle() should return <string>', () => {
-    expect(service.getTableTitle()).toBeInstanceOf(String);
+    expect(service.getTableTitle()).toEqual(TABLE_TITLE);
   });
 
   it('getTableColumnDefs() should return <ColDef[]>', () => {
