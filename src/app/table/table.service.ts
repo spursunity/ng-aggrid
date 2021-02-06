@@ -28,7 +28,6 @@ import { ITableRowData } from '@shared/interface/table.interface';
 import { PublishedRendererComponent } from './published-renderer/published-renderer.component';
 import { SelectionCellComponent } from './selection-cell/selection-cell.component';
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
-import { TableHelperService } from '@shared/helper/table-helper.service';
 import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
 import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
@@ -92,10 +91,7 @@ export class TableService {
     ],
   };
 
-  constructor(
-    private store: Store<IAppState>,
-    private tableConfigSrv: TableHelperService
-  ) {}
+  constructor(private store: Store<IAppState>) {}
 
   setTableData(): void {
     this.store.dispatch({ type: TABLE_EFFECT_ACTIONS.loadTableData });
