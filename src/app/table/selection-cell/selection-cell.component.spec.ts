@@ -2,7 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppModule } from 'src/app/app.module';
-import { IAppState } from '@shared/interface/app.interface';
+import {
+  IAppState,
+  TCustomCellRendererComp,
+} from '@shared/interface/app.interface';
 import { MaterialModule } from 'src/app/material/material.module';
 import { SelectionCellComponent } from './selection-cell.component';
 import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
@@ -46,7 +49,7 @@ describe('SelectionCellComponent', () => {
         tableComponent.gridOptions?.api?.getCellRendererInstances({
           columns: [TABLE_SELECTION_COLUMN_ID],
         }) || [];
-      const wrapperInstance: any = instances[0];
+      const wrapperInstance = instances[0] as TCustomCellRendererComp<SelectionCellComponent>;
       component = wrapperInstance?.getFrameworkComponentInstance();
       html = wrapperInstance?.getGui();
       tableComponent.gridOptions?.api?.removeEventListener(

@@ -5,7 +5,7 @@ import { IToolPanelParams } from 'ag-grid-community';
 import { filter, take } from 'rxjs/operators';
 
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
-import { IAppState } from '@shared/interface/app.interface';
+import { IAppState, TCustomAction } from '@shared/interface/app.interface';
 import { CHANGE_SELECTION_STATUS } from '@store/table';
 import { TableComponent } from '../table.component';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -124,12 +124,13 @@ describe('ToolpanelRendererService', () => {
         filter((action: Action) => action.type === CHANGE_SELECTION_STATUS),
         take(1)
       )
-      .subscribe((action: any) => {
+      .subscribe((action: Action) => {
+        const customAction = action as TCustomAction;
         dispatched = true;
         store.setState({
           table: {
             ...initialState.table,
-            hasSelection: action?.payload?.hasSelection,
+            hasSelection: customAction?.payload?.hasSelection,
           },
         });
       });
