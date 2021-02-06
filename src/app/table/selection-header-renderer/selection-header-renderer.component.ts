@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { ICellRendererParams } from 'ag-grid-community';
+import { fromEventPattern, Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { NodeEventHandler } from 'rxjs/internal/observable/fromEvent';
 
 import { AbstractRendererComponent } from '@shared/abstract/abstract-renderer.component';
 
@@ -11,9 +14,13 @@ import { AbstractRendererComponent } from '@shared/abstract/abstract-renderer.co
 export class SelectionHeaderRendererComponent extends AbstractRendererComponent {
   checked = false;
 
+  private selectionHandler$!: Observable<void>;
+
   agInit(params: ICellRendererParams): void {
     super.agInit(params);
     this.compareRowsCount();
+    this.addDestroySubject();
+    this.addSelectionListener();
   }
 
   changeRowsSelectionState() {
@@ -31,5 +38,25 @@ export class SelectionHeaderRendererComponent extends AbstractRendererComponent 
         this.params.api.getDisplayedRowCount() ===
         this.params.api.getSelectedRows()?.length;
     }
+  }
+
+  private addSelectionListener() {
+    const eventName = 'selectionChanged';
+    const addSelectionHandler = (handler: NodeEventHandler) => {
+      this.params.api.addEventListener(eventName, handler);
+    };
+
+    const removeSelectionHandler = (handler: NodeEventHandler) => {
+      this.params.api.removeEventListener(eventName, handler);
+    };
+
+    this.selectionHandler$ = fromEventPattern(
+      addSelectionHandler,
+      removeSelectionHandler
+    );
+
+    this.selectionHandler$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.compareRowsCount());
   }
 }
