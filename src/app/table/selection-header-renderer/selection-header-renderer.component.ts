@@ -1,26 +1,19 @@
 import { Component } from '@angular/core';
-import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
+
+import { AbstractRendererComponent } from '@shared/abstract/abstract-renderer.component';
 
 @Component({
   selector: 'app-selection-header-renderer',
   templateUrl: './selection-header-renderer.component.html',
   styleUrls: ['./selection-header-renderer.component.scss'],
 })
-export class SelectionHeaderRendererComponent
-  implements ICellRendererAngularComp {
-  params!: ICellRendererParams;
+export class SelectionHeaderRendererComponent extends AbstractRendererComponent {
   checked = false;
 
-  constructor() {}
-
   agInit(params: ICellRendererParams): void {
-    this.params = params;
+    super.agInit(params);
     this.compareRowsCount();
-  }
-
-  refresh(params: ICellRendererParams): boolean {
-    return false;
   }
 
   changeRowsSelectionState() {
