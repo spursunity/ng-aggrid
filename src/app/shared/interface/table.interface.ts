@@ -10,10 +10,36 @@ export interface ITableRowData {
     url: string;
     width: number;
     height: number;
-    isLink?: boolean;
   };
   publishedAt: Date | string;
   title: string;
   description: string;
-  videoId: string;
+  videoLink: string;
+}
+
+/**
+ * Youtube API data
+ */
+export interface IResponseTableDataItem {
+  [key: string]: any;
+  snippet: {
+    [key: string]: any;
+    thumbnails: {
+      default: ITableRowData['thumbnail'];
+      medium: ITableRowData['thumbnail'];
+      high: ITableRowData['thumbnail'];
+    };
+    publishedAt: ITableRowData['publishedAt'];
+    title: string;
+    description: string;
+  };
+  id: {
+    kind: string;
+    videoId: string;
+  };
+}
+
+export interface IResponseTableData {
+  [key: string]: any;
+  items: IResponseTableDataItem[];
 }

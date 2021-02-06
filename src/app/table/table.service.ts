@@ -5,6 +5,7 @@ import {
   ColDef,
   GetContextMenuItemsParams,
   GridOptions,
+  ITooltipParams,
   MenuItemDef,
   PaginationChangedEvent,
   RowSelectedEvent,
@@ -14,26 +15,83 @@ import {
 import {
   CONTEXT_MENU,
   TABLE_EFFECT_ACTIONS,
-  TABLE_GRID_CONFIG,
-  TABLE_RENDERERS,
+  TABLE_SELECTION_COLUMN_ID,
   TABLE_TITLE,
 } from '@shared/const/table.const';
-import { IAppState } from '@shared/interface/app.interface';
-import { ITableRowData } from '@shared/interface/table.interface';
 import {
-  selectSelectionState,
   selectTableData,
   setAllRowsCount,
-  setIsLinkProp,
   setSelectedRowsCount,
 } from '@store/table';
-import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
+import { DescriptionRendererComponent } from './description-renderer/description-renderer.component';
+import { IAppState } from '@shared/interface/app.interface';
+import { ITableRowData } from '@shared/interface/table.interface';
+import { PublishedRendererComponent } from './published-renderer/published-renderer.component';
 import { SelectionCellComponent } from './selection-cell/selection-cell.component';
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
+import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
+import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
 
 @Injectable()
 export class TableService {
+  private columnDefs: ColDef[] = [
+    {
+      headerName: 'Select all',
+      field: TABLE_SELECTION_COLUMN_ID,
+      cellRendererFramework: SelectionCellComponent,
+      headerComponentFramework: SelectionHeaderRendererComponent,
+      initialHide: true,
+      width: 30,
+    },
+    {
+      headerName: '',
+      field: 'thumbnail',
+      cellRendererFramework: ThumbnailRendererComponent,
+      width: 120,
+    },
+    {
+      headerName: 'Published on',
+      field: 'publishedAt',
+      cellRendererFramework: PublishedRendererComponent,
+      flex: 1,
+    },
+    {
+      headerName: 'Video Title',
+      field: 'title',
+      cellRendererFramework: VideoTitleRendererComponent,
+      tooltipValueGetter: (params: ITooltipParams) => params.value,
+      flex: 3,
+    },
+    {
+      headerName: 'Description',
+      field: 'description',
+      cellRendererFramework: DescriptionRendererComponent,
+      tooltipValueGetter: (params: ITooltipParams) => params.value,
+      wrapText: true,
+      flex: 3,
+    },
+  ];
+
+  private gridOptions: GridOptions = {
+    rowHeight: 90,
+    defaultColDef: {
+      menuTabs: ['generalMenuTab'],
+    },
+  };
+
+  private sideBar: SideBarDef = {
+    toolPanels: [
+      {
+        id: 'selection',
+        labelDefault: 'Selection',
+        labelKey: 'selection',
+        toolPanelFramework: ToolpanelRendererComponent,
+        iconKey: 'tick',
+      },
+    ],
+  };
+
   constructor(private store: Store<IAppState>) {}
 
   setTableData(): void {
@@ -44,29 +102,24 @@ export class TableService {
     return this.store.select(selectTableData);
   }
 
-  getTableHasSelection(): Observable<boolean> {
-    return this.store.select(selectSelectionState);
-  }
-
   getTableGridOptions(): GridOptions {
-    const gridOptions: any = { ...TABLE_GRID_CONFIG.gridOptions };
-    gridOptions.onPaginationChanged = this.paginationChangedHandler.bind(this);
-    gridOptions.onRowSelected = this.rowSelectedHandler.bind(this);
+    const initialGridOptions = { ...this.gridOptions };
 
-    return gridOptions;
+    if (initialGridOptions) {
+      const gridOptions = { ...initialGridOptions };
+      gridOptions.onPaginationChanged = (event: PaginationChangedEvent) =>
+        this.paginationChangedHandler(event);
+      gridOptions.onRowSelected = (event: RowSelectedEvent) =>
+        this.rowSelectedHandler(event);
+
+      return gridOptions;
+    }
+
+    return {};
   }
 
   getTableSideBar(): SideBarDef {
-    return { ...TABLE_GRID_CONFIG.sideBar };
-  }
-
-  getTableFrameworkComponents(): any {
-    return {
-      [TABLE_RENDERERS.thumbnail]: ThumbnailRendererComponent,
-      [TABLE_RENDERERS.selectionCell]: SelectionCellComponent,
-      [TABLE_RENDERERS.selectionHeader]: SelectionHeaderRendererComponent,
-      [TABLE_RENDERERS.toolPanel]: ToolpanelRendererComponent,
-    };
+    return { ...this.sideBar };
   }
 
   getTableTitle(): string {
@@ -74,25 +127,21 @@ export class TableService {
   }
 
   getTableColumnDefs(): ColDef[] {
-    return TABLE_GRID_CONFIG.columnDefs;
+    return [...this.columnDefs];
   }
 
-  getTableContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
+  getTableContextMenuItems(
+    params: GetContextMenuItemsParams
+  ): (string | MenuItemDef)[] {
     const columnId = params.column?.getColId();
-    const isLink = params.node?.data?.thumbnail?.isLink;
     const defaultMenu = [...CONTEXT_MENU.defaultMenu];
     const advancedMenuItem = {
       name: CONTEXT_MENU.additionalItemName,
       action: () => {
-        const id = params?.node?.data?.videoId;
-        const payload = {
-          videoId: id,
-          isLinkFlag: !isLink,
-        };
+        const url = params?.node?.data?.videoLink;
 
-        this.store.dispatch(setIsLinkProp({ payload }));
+        window.open(url, '_blank');
       },
-      checked: isLink,
     };
 
     if (columnId === CONTEXT_MENU.columnIdWithAddItem) {
@@ -110,17 +159,11 @@ export class TableService {
   }
 
   private rowSelectedHandler(event: RowSelectedEvent): void {
-    const refreshParams = {
-      rowNodes: [event.node],
-      columns: ['checkbox'],
-      force: true,
-    };
     const selectedRowsCount = event.api.getSelectedRows()?.length || 0;
     const payload = {
       selectedRowsCount,
     };
 
-    event.api.refreshCells(refreshParams);
     this.store.dispatch(setSelectedRowsCount({ payload }));
   }
 }

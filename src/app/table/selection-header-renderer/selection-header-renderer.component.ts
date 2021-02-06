@@ -1,36 +1,26 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { fromEventPattern, Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { NodeEventHandler } from 'rxjs/internal/observable/fromEvent';
 
-import { IAppState } from '@shared/interface/app.interface';
-import { selectIsAllRowsSelected } from '@store/table';
+import { AbstractRendererComponent } from '@shared/abstract/abstract-renderer.component';
 
 @Component({
   selector: 'app-selection-header-renderer',
   templateUrl: './selection-header-renderer.component.html',
   styleUrls: ['./selection-header-renderer.component.scss'],
 })
-export class SelectionHeaderRendererComponent implements ICellRendererAngularComp {
-  checkboxState$: Observable<boolean>;
-  params!: ICellRendererParams;
+export class SelectionHeaderRendererComponent extends AbstractRendererComponent {
+  checked = false;
 
-  private checked = false;
-
-  constructor(private store: Store<IAppState>) {
-    this.checkboxState$ = this.store
-      .select(selectIsAllRowsSelected)
-      .pipe(map((isAllSelected: boolean) => (this.checked = isAllSelected)));
-  }
+  private selectionHandler$!: Observable<void>;
 
   agInit(params: ICellRendererParams): void {
-    this.params = params;
-  }
-
-  refresh(params: ICellRendererParams): boolean {
-    return false;
+    super.agInit(params);
+    this.compareRowsCount();
+    this.addDestroySubject();
+    this.addSelectionListener();
   }
 
   changeRowsSelectionState() {
@@ -39,5 +29,34 @@ export class SelectionHeaderRendererComponent implements ICellRendererAngularCom
     } else {
       this.params.api?.selectAll();
     }
+    this.compareRowsCount();
+  }
+
+  private compareRowsCount(): void {
+    if (this.params) {
+      this.checked =
+        this.params.api.getDisplayedRowCount() ===
+        this.params.api.getSelectedRows()?.length;
+    }
+  }
+
+  private addSelectionListener() {
+    const eventName = 'selectionChanged';
+    const addSelectionHandler = (handler: NodeEventHandler) => {
+      this.params.api.addEventListener(eventName, handler);
+    };
+
+    const removeSelectionHandler = (handler: NodeEventHandler) => {
+      this.params.api.removeEventListener(eventName, handler);
+    };
+
+    this.selectionHandler$ = fromEventPattern(
+      addSelectionHandler,
+      removeSelectionHandler
+    );
+
+    this.selectionHandler$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.compareRowsCount());
   }
 }

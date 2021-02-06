@@ -1,44 +1,6 @@
 import { YOUTUBE_TOKEN } from './token';
 
-export const TABLE_RENDERERS = {
-  thumbnail: 'thumbnailRenderer',
-  selectionCell: 'selectionCellRenderer',
-  selectionHeader: 'selectionHeaderRenderer',
-  toolPanel: 'toolPanelRenderer',
-};
-
 export const TABLE_SELECTION_COLUMN_ID = 'checkbox';
-
-export const TABLE_GRID_CONFIG = {
-  columnDefs: [
-    {
-      headerName: 'Select all',
-      field: TABLE_SELECTION_COLUMN_ID,
-      cellRenderer: TABLE_RENDERERS.selectionCell,
-      headerComponent: TABLE_RENDERERS.selectionHeader,
-      initialHide: true,
-      width: 30,
-    },
-    { headerName: '', field: 'thumbnail', cellRenderer: TABLE_RENDERERS.thumbnail, width: 120 },
-    { headerName: 'Published on', field: 'publishedAt', flex: 1 },
-    { headerName: 'Video Title', field: 'title', tooltipValueGetter: (params: any) => params.value, flex: 3 },
-    { headerName: 'Description', field: 'description', tooltipValueGetter: (params: any) => params.value, flex: 3 },
-  ],
-  gridOptions: {
-    rowHeight: 90,
-  },
-  sideBar: {
-    toolPanels: [
-      {
-        id: 'selection',
-        labelDefault: 'Selection',
-        labelKey: 'selection',
-        toolPanel: TABLE_RENDERERS.toolPanel,
-        iconKey: 'tick',
-      },
-    ],
-  },
-};
 
 export const TABLE_TITLE = 'Youtube search ("John")';
 

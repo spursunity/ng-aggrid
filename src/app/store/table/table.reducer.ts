@@ -5,42 +5,22 @@ import {
   addTableData,
   changeSelectionStatus,
   setAllRowsCount,
-  setIsLinkProp,
   setSelectedRowsCount,
 } from './table.actions';
 
-const initialState: ITableState = {
+export const initialState: ITableState = {
   content: [],
   hasSelection: false,
   allRowsCount: 0,
   selectedRowsCount: 0,
 };
 
-const tableActionReducer = createReducer(
+export const tableActionReducer = createReducer(
   initialState,
   on(addTableData, (state, { payload }) => ({
     ...state,
     content: [...payload.content],
   })),
-  on(setIsLinkProp, (state, { payload }) => {
-    const { content } = state;
-    const newContent = content.map((row) => {
-      if (row.videoId === payload.videoId) {
-        return {
-          ...row,
-          thumbnail: {
-            ...row.thumbnail,
-            isLink: payload.isLinkFlag,
-          },
-        };
-      }
-      return { ...row };
-    });
-    return {
-      ...state,
-      content: [...newContent],
-    };
-  }),
   on(changeSelectionStatus, (state, { payload }) => ({
     ...state,
     hasSelection: payload.hasSelection,
@@ -55,5 +35,7 @@ const tableActionReducer = createReducer(
   }))
 );
 
-export const tableReducer = (state: ITableState | undefined, action: Action): ITableState =>
-  tableActionReducer(state, action);
+export const tableReducer = (
+  state: ITableState | undefined,
+  action: Action
+): ITableState => tableActionReducer(state, action);
