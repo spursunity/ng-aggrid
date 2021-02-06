@@ -1,22 +1,18 @@
 import { Component } from '@angular/core';
-import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
+
+import { AbstractRendererComponent } from '@shared/abstract/abstract-renderer.component';
 
 @Component({
   selector: 'app-published-renderer',
   templateUrl: './published-renderer.component.html',
   styleUrls: ['./published-renderer.component.scss'],
 })
-export class PublishedRendererComponent implements ICellRendererAngularComp {
+export class PublishedRendererComponent extends AbstractRendererComponent {
   publishedDate!: string;
 
-  constructor() {}
-
   agInit(params: ICellRendererParams): void {
+    super.agInit(params);
     this.publishedDate = params?.value || '';
-  }
-
-  refresh(params: ICellRendererParams): boolean {
-    return false;
   }
 }

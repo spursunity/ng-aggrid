@@ -5,7 +5,7 @@ import { IToolPanelParams } from 'ag-grid-community';
 import { filter, take } from 'rxjs/operators';
 
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
-import { IAppState } from '@shared/interface/app.interface';
+import { IAppState, TCustomAction } from '@shared/interface/app.interface';
 import { CHANGE_SELECTION_STATUS } from '@store/table';
 import { TableComponent } from '../table.component';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -48,16 +48,16 @@ describe('ToolpanelRendererService', () => {
     expect(service.withSelection).toBeFalse();
   });
 
-  it('getAllRowsCount() should return observer with "allRowsCount" <number> property of Store', () => {
+  it('getAllRowsCount() should return observer with "allRowsCount" <number> property of Store', (done) => {
     let allRowsCount = initialState.table.allRowsCount;
-    service
-      .getAllRowsCount()
-      .pipe(take(1))
-      .subscribe((value: number) => {
-        expect(value).toEqual(allRowsCount);
-      });
+    service.getAllRowsCount().subscribe((value: number) => {
+      expect(value).toEqual(allRowsCount);
+      if (allRowsCount !== initialState.table.allRowsCount) {
+        done();
+      }
+    });
 
-    allRowsCount = 50;
+    allRowsCount += 50;
     store.setState({
       table: {
         ...initialState.table,
@@ -66,13 +66,14 @@ describe('ToolpanelRendererService', () => {
     });
   });
 
-  it('getHasSelection() should return observer with "hasSelection" <boolean> property of Store', () => {
+  it('getHasSelection() should return observer with "hasSelection" <boolean> property of Store', (done) => {
     let hasSelection = initialState.table.hasSelection;
     service
       .getHasSelection()
       .pipe(take(1))
       .subscribe((value: boolean) => {
         expect(value).toEqual(hasSelection);
+        done();
       });
 
     hasSelection = !hasSelection;
@@ -84,17 +85,16 @@ describe('ToolpanelRendererService', () => {
     });
   });
 
-  it('getSelectedRowsCount() should return observer with "selectedRowsCount" <number> property of Store', async (done) => {
+  it('getSelectedRowsCount() should return observer with "selectedRowsCount" <number> property of Store', (done) => {
     let selectedRowsCount = initialState.table.selectedRowsCount;
-    service
-      .getSelectedRowsCount()
-      .pipe(take(1))
-      .subscribe((value: number) => {
-        expect(value).toEqual(selectedRowsCount);
+    service.getSelectedRowsCount().subscribe((value: number) => {
+      expect(value).toEqual(selectedRowsCount);
+      if (selectedRowsCount !== initialState.table.selectedRowsCount) {
         done();
-      });
+      }
+    });
 
-    selectedRowsCount = 10;
+    selectedRowsCount += 10;
     store.setState({
       table: {
         ...initialState.table,
@@ -103,7 +103,7 @@ describe('ToolpanelRendererService', () => {
     });
   });
 
-  it('switchSelection() should change "withSelection" value', async (done) => {
+  it('switchSelection() should change "withSelection" value', (done) => {
     const initialWithSelection = service.withSelection;
     let dispatched = false;
 
@@ -124,12 +124,13 @@ describe('ToolpanelRendererService', () => {
         filter((action: Action) => action.type === CHANGE_SELECTION_STATUS),
         take(1)
       )
-      .subscribe((action: any) => {
+      .subscribe((action: Action) => {
+        const customAction = action as TCustomAction;
         dispatched = true;
         store.setState({
           table: {
             ...initialState.table,
-            hasSelection: action?.payload?.hasSelection,
+            hasSelection: customAction?.payload?.hasSelection,
           },
         });
       });
