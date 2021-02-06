@@ -1,7 +1,7 @@
+import { mockData } from '@shared/const/mock';
 import { ITableState } from '@shared/interface/table.interface';
 import {
   selectAllRowsCount,
-  selectIsAllRowsSelected,
   selectSelectedRowsCount,
   selectSelectionState,
   selectTableData,
@@ -13,39 +13,7 @@ describe('TableSelectors', () => {
   let secondTitle: string;
 
   beforeEach(() => {
-    const allRowsCount = 101;
-    const selectedRowsCount = 38;
-    const hasSelection = true;
-
-    initialState = {
-      content: [
-        {
-          thumbnail: {
-            url: 'url1',
-            width: 101,
-            height: 101,
-          },
-          publishedAt: new Date(),
-          title: 'title1',
-          description: 'description1',
-          videoId: 'videoId1',
-        },
-        {
-          thumbnail: {
-            url: 'url2',
-            width: 202,
-            height: 202,
-          },
-          publishedAt: new Date(),
-          title: 'title2',
-          description: 'description2',
-          videoId: 'videoId2',
-        },
-      ],
-      hasSelection,
-      allRowsCount,
-      selectedRowsCount,
-    };
+    initialState = mockData.getInitialStateWithContent(3, true).table;
 
     contentSize = initialState.content?.length;
     secondTitle = initialState.content[1]?.title;
@@ -75,13 +43,5 @@ describe('TableSelectors', () => {
     const result = selectSelectedRowsCount.projector(initialState);
 
     expect(result).toEqual(initialState.selectedRowsCount);
-  });
-
-  it('should select comparison of all and selected rows', () => {
-    const result = selectIsAllRowsSelected.projector(initialState);
-    const isAllSelected =
-      initialState.allRowsCount === initialState.selectedRowsCount;
-
-    expect(result).toEqual(isAllSelected);
   });
 });

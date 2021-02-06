@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { HttpHelperService } from '@shared/helper/http-helper.service';
 
-import { IAppState } from '@shared/interface/app.interface';
 import { AppModule } from '../app.module';
+import { HttpHelperService } from '@shared/helper/http-helper.service';
+import { IAppState } from '@shared/interface/app.interface';
+import { mockData } from '@shared/const/mock';
 import { TableComponent } from './table.component';
 import { TableService } from './table.service';
 
@@ -11,14 +12,7 @@ describe('TableComponent', () => {
   let component: TableComponent;
   let fixture: ComponentFixture<TableComponent>;
   let store: MockStore;
-  const initialState: IAppState = {
-    table: {
-      content: [],
-      hasSelection: false,
-      allRowsCount: 0,
-      selectedRowsCount: 0,
-    },
-  };
+  const initialState: IAppState = mockData.getEmptyInitialState();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -74,7 +68,7 @@ describe('TableComponent', () => {
         publishedAt,
         title,
         description,
-        videoId: 'string',
+        videoLink: 'string',
       },
     ];
 

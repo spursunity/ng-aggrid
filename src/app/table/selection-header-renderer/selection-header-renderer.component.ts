@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-
-import { IAppState } from '@shared/interface/app.interface';
-import { selectIsAllRowsSelected } from '@store/table';
 
 @Component({
   selector: 'app-selection-header-renderer',
@@ -15,19 +9,14 @@ import { selectIsAllRowsSelected } from '@store/table';
 })
 export class SelectionHeaderRendererComponent
   implements ICellRendererAngularComp {
-  checkboxState$: Observable<boolean>;
   params!: ICellRendererParams;
+  checked = false;
 
-  private checked = false;
-
-  constructor(private store: Store<IAppState>) {
-    this.checkboxState$ = this.store
-      .select(selectIsAllRowsSelected)
-      .pipe(tap((isAllSelected: boolean) => (this.checked = isAllSelected)));
-  }
+  constructor() {}
 
   agInit(params: ICellRendererParams): void {
     this.params = params;
+    this.compareRowsCount();
   }
 
   refresh(params: ICellRendererParams): boolean {
@@ -39,6 +28,15 @@ export class SelectionHeaderRendererComponent
       this.params.api?.deselectAll();
     } else {
       this.params.api?.selectAll();
+    }
+    this.compareRowsCount();
+  }
+
+  private compareRowsCount(): void {
+    if (this.params) {
+      this.checked =
+        this.params.api.getDisplayedRowCount() ===
+        this.params.api.getSelectedRows()?.length;
     }
   }
 }

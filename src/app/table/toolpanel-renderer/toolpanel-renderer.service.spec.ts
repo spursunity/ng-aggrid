@@ -10,29 +10,23 @@ import { CHANGE_SELECTION_STATUS } from '@store/table';
 import { TableComponent } from '../table.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AppModule } from 'src/app/app.module';
-import { TableConfigHelper } from '@shared/helper/table-config-helper.service';
+import { TableHelperService } from '@shared/helper/table-helper.service';
 import { TableService } from '../table.service';
+import { mockData } from '@shared/const/mock';
 
 describe('ToolpanelRendererService', () => {
   let service: ToolpanelRendererService;
   let store: MockStore;
   let tableComponent: TableComponent;
   let tableFixture: ComponentFixture<TableComponent>;
-  const initialState: IAppState = {
-    table: {
-      content: [],
-      hasSelection: false,
-      allRowsCount: 0,
-      selectedRowsCount: 0,
-    },
-  };
+  const initialState: IAppState = mockData.getEmptyInitialState();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TableComponent],
       imports: [AppModule, MaterialModule],
       providers: [
-        TableConfigHelper,
+        TableHelperService,
         TableService,
         ToolpanelRendererService,
         provideMockStore({ initialState }),
