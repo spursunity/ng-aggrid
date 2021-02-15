@@ -10,8 +10,6 @@ export class AbstractRendererComponent
 
   protected destroy$!: Subject<boolean>;
 
-  constructor() {}
-
   ngOnDestroy(): void {
     if (this.destroy$) {
       this.destroy$.next(true);

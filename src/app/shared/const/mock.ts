@@ -1,8 +1,6 @@
 import { IAppState } from '@shared/interface/app.interface';
 
 class MockData {
-  constructor() {}
-
   getEmptyInitialState(): IAppState {
     return {
       table: {
