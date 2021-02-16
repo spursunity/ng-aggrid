@@ -32,9 +32,9 @@ describe('TableService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getTableData() should return observer with "content" <ITableRowData[]> property of Store', () => {
+  it('should have table data as observer with "content" <ITableRowData[]> property of Store', () => {
     let content = initialState.table.content;
-    service.getTableData().subscribe((value: ITableRowData[]) => {
+    service.tableData$.subscribe((value: ITableRowData[]) => {
       expect(value.length).toEqual(content.length);
     });
 
@@ -56,18 +56,14 @@ describe('TableService', () => {
   });
 
   it('getTableSideBar() should return <SideBarDef>', () => {
-    const sideBar = service.getTableSideBar();
+    const sideBar = service.sideBar;
 
     expect(sideBar).toBeInstanceOf(Object);
     expect(sideBar.toolPanels).toBeInstanceOf(Array);
   });
 
-  it('getTableTitle() should return <string>', () => {
-    expect(service.getTableTitle()).toEqual(TABLE_TITLE);
-  });
-
   it('getTableColumnDefs() should return <ColDef[]>', () => {
-    const columnDefs = service.getTableColumnDefs();
+    const columnDefs = service.columnDefs;
 
     expect(columnDefs).toBeInstanceOf(Array);
     expect(columnDefs.length).toBeGreaterThanOrEqual(1);

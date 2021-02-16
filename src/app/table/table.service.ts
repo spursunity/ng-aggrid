@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import {
   ColDef,
   GetContextMenuItemsParams,
@@ -16,7 +15,6 @@ import {
   CONTEXT_MENU,
   TABLE_EFFECT_ACTIONS,
   TABLE_SELECTION_COLUMN_ID,
-  TABLE_TITLE,
 } from '@shared/const/table.const';
 import {
   selectTableData,
@@ -25,7 +23,6 @@ import {
 } from '@store/table';
 import { DescriptionRendererComponent } from './description-renderer/description-renderer.component';
 import { IAppState } from '@shared/interface/app.interface';
-import { ITableRowData } from '@shared/interface/table.interface';
 import { PublishedRendererComponent } from './published-renderer/published-renderer.component';
 import { SelectionCellComponent } from './selection-cell/selection-cell.component';
 import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
@@ -35,7 +32,9 @@ import { VideoTitleRendererComponent } from './video-title-renderer/video-title-
 
 @Injectable()
 export class TableService {
-  private columnDefs: ColDef[] = [
+  tableData$ = this.store.select(selectTableData);
+
+  readonly columnDefs: ColDef[] = [
     {
       headerName: 'Select all',
       field: TABLE_SELECTION_COLUMN_ID,
@@ -73,14 +72,14 @@ export class TableService {
     },
   ];
 
-  private gridOptions: GridOptions = {
+  readonly gridOptions: GridOptions = {
     rowHeight: 90,
     defaultColDef: {
       menuTabs: ['generalMenuTab'],
     },
   };
 
-  private sideBar: SideBarDef = {
+  readonly sideBar: SideBarDef = {
     toolPanels: [
       {
         id: 'selection',
@@ -98,10 +97,6 @@ export class TableService {
     this.store.dispatch({ type: TABLE_EFFECT_ACTIONS.loadTableData });
   }
 
-  getTableData(): Observable<ITableRowData[]> {
-    return this.store.select(selectTableData);
-  }
-
   getTableGridOptions(): GridOptions {
     const initialGridOptions = { ...this.gridOptions };
 
@@ -116,18 +111,6 @@ export class TableService {
     }
 
     return {};
-  }
-
-  getTableSideBar(): SideBarDef {
-    return { ...this.sideBar };
-  }
-
-  getTableTitle(): string {
-    return TABLE_TITLE;
-  }
-
-  getTableColumnDefs(): ColDef[] {
-    return [...this.columnDefs];
   }
 
   getTableContextMenuItems(
