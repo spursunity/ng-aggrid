@@ -14,7 +14,6 @@ import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
 
 @Injectable()
 export class ToolpanelRendererService {
-  withSelection = false;
   readonly allRowsCount$ = this.store.select(selectAllRowsCount);
   readonly selectedRowsCount$ = this.store.select(selectSelectedRowsCount);
   readonly hasSelection$ = this.store.select(selectSelectionState).pipe(
@@ -22,6 +21,8 @@ export class ToolpanelRendererService {
       this.withSelection = hasSelection;
     })
   );
+
+  private withSelection = false;
 
   constructor(private store: Store<IAppState>) {}
 

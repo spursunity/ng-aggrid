@@ -1,135 +1,66 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { Action } from '@ngrx/store';
+import { TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 import { IToolPanelParams } from 'ag-grid-community';
 import { filter, take } from 'rxjs/operators';
 
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
-import { IAppState, TCustomAction } from '@shared/interface/app.interface';
-import { CHANGE_SELECTION_STATUS } from '@store/table';
-import { TableComponent } from '../table.component';
-import { MaterialModule } from 'src/app/material/material.module';
+import { changeSelectionStatus, initialState } from '@store/table';
 import { AppModule } from 'src/app/app.module';
-import { TableHelperService } from '@shared/helper/table-helper.service';
-import { TableService } from '../table.service';
-import { mockData } from '@shared/const/mock';
 
 describe('ToolpanelRendererService', () => {
   let service: ToolpanelRendererService;
-  let store: MockStore;
-  let tableComponent: TableComponent;
-  let tableFixture: ComponentFixture<TableComponent>;
-  const initialState: IAppState = mockData.getEmptyInitialState();
+  let store: Store;
+  const params = {
+    api: {
+      deselectAll: () => {},
+    },
+    columnApi: {
+      applyColumnState: ({}) => {},
+    },
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TableComponent],
-      imports: [AppModule, MaterialModule],
-      providers: [
-        TableHelperService,
-        TableService,
-        ToolpanelRendererService,
-        provideMockStore({ initialState }),
-      ],
+      imports: [AppModule],
+      providers: [ToolpanelRendererService],
     });
-    store = TestBed.inject(MockStore);
+    store = TestBed.inject(Store);
     service = TestBed.inject(ToolpanelRendererService);
-    tableFixture = TestBed.createComponent(TableComponent);
-    tableComponent = tableFixture.componentInstance;
-    tableFixture.detectChanges();
-    await tableFixture.whenStable();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should have "withSelection"', () => {
-    expect(service.withSelection).toBeFalse();
-  });
-
-  it('getAllRowsCount() should return observer with "allRowsCount" <number> property of Store', (done) => {
-    let allRowsCount = initialState.table.allRowsCount;
-    service.allRowsCount$.subscribe((value: number) => {
-      expect(value).toEqual(allRowsCount);
-      if (allRowsCount !== initialState.table.allRowsCount) {
-        done();
-      }
-    });
-
-    allRowsCount += 50;
-    store.setState({
-      table: {
-        ...initialState.table,
-        allRowsCount,
-      },
-    });
-  });
-
-  it('getHasSelection() should return observer with "hasSelection" <boolean> property of Store', (done) => {
-    let hasSelection = initialState.table.hasSelection;
-    service.hasSelection$.pipe(take(1)).subscribe((value: boolean) => {
-      expect(value).toEqual(hasSelection);
-      done();
-    });
-
-    hasSelection = !hasSelection;
-    store.setState({
-      table: {
-        ...initialState.table,
-        hasSelection,
-      },
-    });
-  });
-
-  it('getSelectedRowsCount() should return observer with "selectedRowsCount" <number> property of Store', (done) => {
-    let selectedRowsCount = initialState.table.selectedRowsCount;
-    service.selectedRowsCount$.subscribe((value: number) => {
-      expect(value).toEqual(selectedRowsCount);
-      if (selectedRowsCount !== initialState.table.selectedRowsCount) {
-        done();
-      }
-    });
-
-    selectedRowsCount += 10;
-    store.setState({
-      table: {
-        ...initialState.table,
-        selectedRowsCount,
-      },
-    });
-  });
-
-  it('switchSelection() should change "withSelection" value', (done) => {
-    const initialWithSelection = service.withSelection;
-    let dispatched = false;
+  it('switchSelection() should call "deselectAll" GridApi and "applyColumnState" columnApi methods', (done) => {
+    spyOn(params.api, 'deselectAll');
+    spyOn(params.columnApi, 'applyColumnState');
 
     service.hasSelection$
       .pipe(
-        filter(() => dispatched),
+        filter((hasSelection) => hasSelection),
         take(1)
       )
-      .subscribe((value: boolean) => {
-        expect(value).toEqual(service.withSelection);
-        expect(service.withSelection).not.toEqual(initialWithSelection);
+      .subscribe(() => {
+        service.switchSelection(params as IToolPanelParams);
+        expect(params.columnApi.applyColumnState).toHaveBeenCalled();
+        expect(params.api.deselectAll).toHaveBeenCalled();
         done();
       });
 
-    store.scannedActions$
-      .pipe(
-        filter((action: Action) => action.type === CHANGE_SELECTION_STATUS),
-        take(1)
-      )
-      .subscribe((action: Action) => {
-        const customAction = action as TCustomAction;
-        dispatched = true;
-        store.setState({
-          table: {
-            ...initialState.table,
-            hasSelection: customAction?.payload?.hasSelection,
-          },
-        });
-      });
-    service.switchSelection(tableComponent.gridOptions as IToolPanelParams);
+    service.switchSelection(params as IToolPanelParams);
+  });
+
+  it('switchSelection() should dispatch "changeSelectionStatus" action', () => {
+    const payload = {
+      hasSelection: !initialState.hasSelection,
+    };
+    spyOn(store, 'dispatch');
+
+    service.switchSelection(params as IToolPanelParams);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      changeSelectionStatus({ payload })
+    );
   });
 });

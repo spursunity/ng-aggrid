@@ -13,8 +13,9 @@ import { ToolpanelRendererService } from './toolpanel-renderer.service';
 export class ToolpanelRendererComponent implements IToolPanelAngularComp {
   allRowsCount$ = this.toolpanelRendererSrv.allRowsCount$;
   hasSelection$ = this.toolpanelRendererSrv.hasSelection$;
-  params!: IToolPanelParams;
   selectedRowsCount$ = this.toolpanelRendererSrv.selectedRowsCount$;
+
+  private params!: IToolPanelParams;
 
   constructor(@Self() private toolpanelRendererSrv: ToolpanelRendererService) {}
 
