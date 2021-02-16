@@ -4,14 +4,14 @@ import { fromEventPattern, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NodeEventHandler } from 'rxjs/internal/observable/fromEvent';
 
-import { AbstractRendererComponent } from '@shared/abstract/abstract-renderer.component';
+import { BaseCellRendererComponent } from '@shared/abstract/abstract-renderer.component';
 
 @Component({
   selector: 'app-selection-header-renderer',
   templateUrl: './selection-header-renderer.component.html',
   styleUrls: ['./selection-header-renderer.component.scss'],
 })
-export class SelectionHeaderRendererComponent extends AbstractRendererComponent {
+export class SelectionHeaderRendererComponent extends BaseCellRendererComponent {
   checked = false;
 
   private selectionHandler$!: Observable<void>;
@@ -19,7 +19,6 @@ export class SelectionHeaderRendererComponent extends AbstractRendererComponent 
   agInit(params: ICellRendererParams): void {
     super.agInit(params);
     this.compareRowsCount();
-    this.addDestroySubject();
     this.addSelectionListener();
   }
 

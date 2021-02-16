@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { AbstractRendererComponent } from '@shared/abstract/abstract-renderer.component';
+import { BaseCellRendererComponent } from '@shared/abstract/abstract-renderer.component';
 
 @Component({
   selector: 'app-video-title-renderer',
   templateUrl: './video-title-renderer.component.html',
   styleUrls: ['./video-title-renderer.component.scss'],
 })
-export class VideoTitleRendererComponent extends AbstractRendererComponent {
+export class VideoTitleRendererComponent extends BaseCellRendererComponent {
   videoLink = '';
   videoTitle = '';
 
