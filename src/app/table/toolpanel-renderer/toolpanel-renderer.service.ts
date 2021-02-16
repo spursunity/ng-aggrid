@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { IToolPanelParams } from 'ag-grid-community';
 
@@ -16,53 +15,41 @@ import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
 @Injectable()
 export class ToolpanelRendererService {
   withSelection = false;
-
-  private params!: IToolPanelParams;
+  readonly allRowsCount$ = this.store.select(selectAllRowsCount);
+  readonly selectedRowsCount$ = this.store.select(selectSelectedRowsCount);
+  readonly hasSelection$ = this.store.select(selectSelectionState).pipe(
+    tap((hasSelection) => {
+      this.withSelection = hasSelection;
+    })
+  );
 
   constructor(private store: Store<IAppState>) {}
 
-  getAllRowsCount(): Observable<number> {
-    return this.store.select(selectAllRowsCount);
-  }
-
-  getSelectedRowsCount(): Observable<number> {
-    return this.store.select(selectSelectedRowsCount);
-  }
-
-  getHasSelection(): Observable<boolean> {
-    return this.store.select(selectSelectionState).pipe(
-      tap((hasSelection) => {
-        this.withSelection = hasSelection;
-        this.changeSelectionColumnVisibility(hasSelection);
-      })
-    );
-  }
-
   switchSelection(params: IToolPanelParams): void {
-    this.params = params;
     const payload = {
       hasSelection: !this.withSelection,
     };
 
     if (!payload.hasSelection) {
-      this.changeSelectionColumnVisibility(payload.hasSelection);
-      this.params.api.deselectAll();
+      this.changeSelectionColumnVisibility(params, payload.hasSelection);
+      params.api.deselectAll();
     }
 
     this.store.dispatch(changeSelectionStatus({ payload }));
   }
 
-  private changeSelectionColumnVisibility(hasSelection: boolean): void {
-    if (this.params) {
-      const newColumnsState = {
-        state: [
-          {
-            colId: TABLE_SELECTION_COLUMN_ID,
-            hide: !hasSelection,
-          },
-        ],
-      };
-      this.params.columnApi.applyColumnState(newColumnsState);
-    }
+  private changeSelectionColumnVisibility(
+    params: IToolPanelParams,
+    hasSelection: boolean
+  ): void {
+    const newColumnsState = {
+      state: [
+        {
+          colId: TABLE_SELECTION_COLUMN_ID,
+          hide: !hasSelection,
+        },
+      ],
+    };
+    params.columnApi.applyColumnState(newColumnsState);
   }
 }

@@ -50,7 +50,7 @@ describe('ToolpanelRendererService', () => {
 
   it('getAllRowsCount() should return observer with "allRowsCount" <number> property of Store', (done) => {
     let allRowsCount = initialState.table.allRowsCount;
-    service.getAllRowsCount().subscribe((value: number) => {
+    service.allRowsCount$.subscribe((value: number) => {
       expect(value).toEqual(allRowsCount);
       if (allRowsCount !== initialState.table.allRowsCount) {
         done();
@@ -68,13 +68,10 @@ describe('ToolpanelRendererService', () => {
 
   it('getHasSelection() should return observer with "hasSelection" <boolean> property of Store', (done) => {
     let hasSelection = initialState.table.hasSelection;
-    service
-      .getHasSelection()
-      .pipe(take(1))
-      .subscribe((value: boolean) => {
-        expect(value).toEqual(hasSelection);
-        done();
-      });
+    service.hasSelection$.pipe(take(1)).subscribe((value: boolean) => {
+      expect(value).toEqual(hasSelection);
+      done();
+    });
 
     hasSelection = !hasSelection;
     store.setState({
@@ -87,7 +84,7 @@ describe('ToolpanelRendererService', () => {
 
   it('getSelectedRowsCount() should return observer with "selectedRowsCount" <number> property of Store', (done) => {
     let selectedRowsCount = initialState.table.selectedRowsCount;
-    service.getSelectedRowsCount().subscribe((value: number) => {
+    service.selectedRowsCount$.subscribe((value: number) => {
       expect(value).toEqual(selectedRowsCount);
       if (selectedRowsCount !== initialState.table.selectedRowsCount) {
         done();
@@ -107,8 +104,7 @@ describe('ToolpanelRendererService', () => {
     const initialWithSelection = service.withSelection;
     let dispatched = false;
 
-    service
-      .getHasSelection()
+    service.hasSelection$
       .pipe(
         filter(() => dispatched),
         take(1)

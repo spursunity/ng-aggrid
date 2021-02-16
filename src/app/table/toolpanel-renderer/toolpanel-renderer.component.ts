@@ -1,7 +1,6 @@
 import { Component, Self } from '@angular/core';
 import { IToolPanelAngularComp } from 'ag-grid-angular';
 import { IToolPanelParams } from 'ag-grid-community';
-import { Observable } from 'rxjs';
 
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
 
@@ -12,16 +11,12 @@ import { ToolpanelRendererService } from './toolpanel-renderer.service';
   providers: [ToolpanelRendererService],
 })
 export class ToolpanelRendererComponent implements IToolPanelAngularComp {
-  allRowsCount$: Observable<number>;
-  hasSelection$: Observable<boolean>;
+  allRowsCount$ = this.toolpanelRendererSrv.allRowsCount$;
+  hasSelection$ = this.toolpanelRendererSrv.hasSelection$;
   params!: IToolPanelParams;
-  selectedRowsCount$: Observable<number>;
+  selectedRowsCount$ = this.toolpanelRendererSrv.selectedRowsCount$;
 
-  constructor(@Self() private toolpanelRendererSrv: ToolpanelRendererService) {
-    this.allRowsCount$ = this.toolpanelRendererSrv.getAllRowsCount();
-    this.hasSelection$ = this.toolpanelRendererSrv.getHasSelection();
-    this.selectedRowsCount$ = this.toolpanelRendererSrv.getSelectedRowsCount();
-  }
+  constructor(@Self() private toolpanelRendererSrv: ToolpanelRendererService) {}
 
   agInit(params: IToolPanelParams): void {
     this.params = params;
