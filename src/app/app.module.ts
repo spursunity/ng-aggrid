@@ -12,6 +12,7 @@ import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { MaterialModule } from './material/material.module';
 import { tableEffects } from '@store/table';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { GlobalWindowService } from '@shared/service/global-window.service';
 
 @NgModule({
   declarations: [AppComponent, PageNotFoundComponent],
@@ -24,7 +25,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MaterialModule,
     AppRoutingModule,
   ],
-  providers: [HttpHelperService],
+  providers: [HttpHelperService, GlobalWindowService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -29,6 +29,7 @@ import { SelectionHeaderRendererComponent } from './selection-header-renderer/se
 import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
 import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
 import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
+import { GlobalWindowService } from '@shared/service/global-window.service';
 
 @Injectable()
 export class TableService {
@@ -91,7 +92,10 @@ export class TableService {
     ],
   };
 
-  constructor(private store: Store<IAppState>) {}
+  constructor(
+    private store: Store<IAppState>,
+    private globalWindowSrv: GlobalWindowService
+  ) {}
 
   setTableData(): void {
     this.store.dispatch({ type: TABLE_EFFECT_ACTIONS.loadTableData });
@@ -123,7 +127,7 @@ export class TableService {
       action: () => {
         const url = params?.node?.data?.videoLink;
 
-        window.open(url, '_blank');
+        this.globalWindowSrv.openInNewTab(url);
       },
     };
 
