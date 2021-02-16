@@ -21,15 +21,17 @@ import {
   setAllRowsCount,
   setSelectedRowsCount,
 } from '@store/table';
-import { DescriptionRendererComponent } from './description-renderer/description-renderer.component';
 import { IAppState } from '@shared/interface/app.interface';
-import { PublishedRendererComponent } from './published-renderer/published-renderer.component';
-import { SelectionCellComponent } from './selection-cell/selection-cell.component';
-import { SelectionHeaderRendererComponent } from './selection-header-renderer/selection-header-renderer.component';
-import { ThumbnailRendererComponent } from './thumbnail-renderer/thumbnail-renderer.component';
-import { ToolpanelRendererComponent } from './toolpanel-renderer/toolpanel-renderer.component';
-import { VideoTitleRendererComponent } from './video-title-renderer/video-title-renderer.component';
+import { ToolpanelRendererComponent } from './renderers/toolpanel-renderer/toolpanel-renderer.component';
 import { GlobalWindowService } from '@shared/service/global-window.service';
+import {
+  DescriptionRendererComponent,
+  PublishedRendererComponent,
+  SelectionCellComponent,
+  SelectionHeaderRendererComponent,
+  ThumbnailRendererComponent,
+  VideoTitleRendererComponent,
+} from './renderers';
 
 @Injectable()
 export class TableService {
@@ -73,13 +75,6 @@ export class TableService {
     },
   ];
 
-  readonly gridOptions: GridOptions = {
-    rowHeight: 90,
-    defaultColDef: {
-      menuTabs: ['generalMenuTab'],
-    },
-  };
-
   readonly sideBar: SideBarDef = {
     toolPanels: [
       {
@@ -90,6 +85,13 @@ export class TableService {
         iconKey: 'tick',
       },
     ],
+  };
+
+  private gridOptions: GridOptions = {
+    rowHeight: 90,
+    defaultColDef: {
+      menuTabs: ['generalMenuTab'],
+    },
   };
 
   constructor(

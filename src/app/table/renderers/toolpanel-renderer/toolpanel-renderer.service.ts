@@ -32,10 +32,10 @@ export class ToolpanelRendererService {
     };
 
     if (!payload.hasSelection) {
-      this.changeSelectionColumnVisibility(params, payload.hasSelection);
       params.api.deselectAll();
     }
 
+    this.changeSelectionColumnVisibility(params, payload.hasSelection);
     this.store.dispatch(changeSelectionStatus({ payload }));
   }
 

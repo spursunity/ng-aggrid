@@ -12,7 +12,7 @@ import { TABLE_TITLE } from '@shared/const/table.const';
 })
 export class TableComponent implements OnInit {
   columnDefs = this.tableSrv.columnDefs;
-  gridOptions = this.tableSrv.gridOptions;
+  gridOptions = this.tableSrv.getTableGridOptions();
   rowData$ = this.tableSrv.tableData$;
   sideBar = this.tableSrv.sideBar;
   tableTitle = TABLE_TITLE;

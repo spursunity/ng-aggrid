@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { BaseCellRendererComponent } from '@shared/abstract/abstract-renderer.component';
+import { BaseCellRendererComponent } from '../../base-cell-renderer.component';
 
 @Component({
   selector: 'app-published-renderer',

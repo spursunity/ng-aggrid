@@ -6,10 +6,10 @@ import { AppModule } from 'src/app/app.module';
 import { IAppState } from '@shared/interface/app.interface';
 import { MaterialModule } from 'src/app/material/material.module';
 import { SelectionHeaderRendererComponent } from './selection-header-renderer.component';
-import { TableComponent } from '../table.component';
 import { TableHelperService } from '@shared/helper/table-helper.service';
-import { TableService } from '../table.service';
 import { mockData } from '@shared/const/mock';
+import { TableComponent } from 'src/app/table/table.component';
+import { TableService } from 'src/app/table/table.service';
 
 describe('SelectionHeaderRendererComponent', () => {
   let component: SelectionHeaderRendererComponent;

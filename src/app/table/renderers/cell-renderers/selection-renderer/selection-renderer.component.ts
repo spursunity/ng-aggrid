@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { BaseCellRendererComponent } from '@shared/abstract/abstract-renderer.component';
+import { BaseCellRendererComponent } from '../../base-cell-renderer.component';
 
 @Component({
-  selector: 'app-selection-cell',
-  templateUrl: './selection-cell.component.html',
-  styleUrls: ['./selection-cell.component.scss'],
+  selector: 'app-selection-renderer',
+  templateUrl: './selection-renderer.component.html',
+  styleUrls: ['./selection-renderer.component.scss'],
 })
 export class SelectionCellComponent extends BaseCellRendererComponent {
   get checked() {

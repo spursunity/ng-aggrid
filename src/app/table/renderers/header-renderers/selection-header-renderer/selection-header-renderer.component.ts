@@ -4,7 +4,7 @@ import { fromEventPattern, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NodeEventHandler } from 'rxjs/internal/observable/fromEvent';
 
-import { BaseCellRendererComponent } from '@shared/abstract/abstract-renderer.component';
+import { BaseCellRendererComponent } from '../../base-cell-renderer.component';
 
 @Component({
   selector: 'app-selection-header-renderer',
