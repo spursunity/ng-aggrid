@@ -1,8 +1,4 @@
 <div class="toolbar-container">
-  <div *ngIf="isLoading$ | async; then loader; else content"></div>
-</div>
-
-<ng-template #content>
   <div class="switcher-container">
     <button mat-raised-button color="primary" (click)="switchSelection()">
       Switch Selection
@@ -16,10 +12,4 @@
       >
     </mat-list>
   </div>
-</ng-template>
-
-<ng-template #loader>
-  <div class="spinner-container">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-template>
+</div>

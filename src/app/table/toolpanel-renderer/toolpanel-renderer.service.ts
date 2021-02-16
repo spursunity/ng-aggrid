@@ -17,19 +17,12 @@ import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
 export class ToolpanelRendererService {
   withSelection = false;
 
-  private isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
   private params!: IToolPanelParams;
 
   constructor(private store: Store<IAppState>) {}
 
   getAllRowsCount(): Observable<number> {
     return this.store.select(selectAllRowsCount);
-  }
-
-  getIsLoading(): Observable<boolean> {
-    return this.isLoading$;
   }
 
   getSelectedRowsCount(): Observable<number> {
@@ -41,7 +34,6 @@ export class ToolpanelRendererService {
       tap((hasSelection) => {
         this.withSelection = hasSelection;
         this.changeSelectionColumnVisibility(hasSelection);
-        this.isLoading$.next(false);
       })
     );
   }
@@ -57,7 +49,6 @@ export class ToolpanelRendererService {
       this.params.api.deselectAll();
     }
 
-    this.isLoading$.next(true);
     this.store.dispatch(changeSelectionStatus({ payload }));
   }
 

@@ -16,13 +16,11 @@ export class ToolpanelRendererComponent implements IToolPanelAngularComp {
   hasSelection$: Observable<boolean>;
   params!: IToolPanelParams;
   selectedRowsCount$: Observable<number>;
-  isLoading$: Observable<boolean>;
 
   constructor(@Self() private toolpanelRendererSrv: ToolpanelRendererService) {
     this.allRowsCount$ = this.toolpanelRendererSrv.getAllRowsCount();
     this.hasSelection$ = this.toolpanelRendererSrv.getHasSelection();
     this.selectedRowsCount$ = this.toolpanelRendererSrv.getSelectedRowsCount();
-    this.isLoading$ = this.toolpanelRendererSrv.getIsLoading();
   }
 
   agInit(params: IToolPanelParams): void {
