@@ -9,7 +9,7 @@ import { BaseCellRendererComponent } from '../../base-cell-renderer.component';
   styleUrls: ['./description-renderer.component.scss'],
 })
 export class DescriptionRendererComponent extends BaseCellRendererComponent {
-  description = '' as string;
+  description = '';
 
   agInit(params: ICellRendererParams): void {
     super.agInit(params);

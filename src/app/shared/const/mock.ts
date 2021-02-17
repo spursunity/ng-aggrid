@@ -67,6 +67,10 @@ export const MOCK_AG_INIT_PARAMS_PUBLISHED_DATE = {
   value: new Date().toString(),
 };
 
+export const MOCK_AG_INIT_PARAMS_DESCRIPTION = {
+  value: 'dESCriPtioN',
+};
+
 export const INITIAL_IMAGE_DATA = {
   url: '',
   width: 0,
