@@ -1,45 +1,42 @@
 import { Action } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Observable, of } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { AppModule } from 'src/app/app.module';
-import { IAppState } from '@shared/interface/app.interface';
-import { mockData } from '@shared/const/mock';
+import { MOCK_TABLE_EFFECTS_PAYLOAD } from '@shared/const/mock';
 import { TABLE_EFFECT_ACTIONS } from '@shared/const/table.const';
 import { TableEffects } from '../table.effects';
 import { VideosService } from '@shared/service/videos.service';
 import { TableService } from 'src/app/table/table.service';
+import { ADD_TABLE_DATA_ACTION } from '../table.actions';
 
 describe('TableEffects', () => {
   let actions$: Observable<Action>;
-  let store: MockStore<IAppState>;
-  let service: TableService;
-  const initialState: IAppState = mockData.getEmptyInitialState();
+  let videosSrv: VideosService;
+  let effects: TableEffects;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppModule],
-      providers: [
-        TableService,
-        provideMockActions(() => actions$),
-        provideMockStore({ initialState }),
-      ],
+      providers: [TableService, provideMockActions(() => actions$)],
     });
-    store = TestBed.inject(MockStore);
-    service = TestBed.inject(TableService);
-    TestBed.inject<TableEffects>(TableEffects);
-    TestBed.inject(VideosService);
+    effects = TestBed.inject<TableEffects>(TableEffects);
+    videosSrv = TestBed.inject(VideosService);
   });
 
-  it('should emit loadTable action', (done) => {
+  it('should dispatch "ADD_TABLE_DATA_ACTION" after "TABLE_EFFECT_ACTIONS.loadTableData"', () => {
     actions$ = of({ type: TABLE_EFFECT_ACTIONS.loadTableData });
-    actions$.subscribe((action: Action) => {
-      expect(action).toBeTruthy();
-      done();
-    });
 
-    service.setTableData();
+    spyOn(videosSrv, 'getVideos').and.returnValues(
+      of(MOCK_TABLE_EFFECTS_PAYLOAD)
+    );
+
+    effects.loadTableData$.subscribe((action) => {
+      expect(action).toEqual({
+        type: ADD_TABLE_DATA_ACTION,
+        payload: MOCK_TABLE_EFFECTS_PAYLOAD,
+      });
+    });
   });
 });

@@ -6,7 +6,7 @@ export class GlobalWindowService {
     try {
       window.open(url, '_blank');
     } catch (e) {
-      console.warn('ERROR - GlobalWindowService - openInNewTab: ', e.message);
+      console.error('ERROR - GlobalWindowService - openInNewTab: ', e.message);
     }
   }
 }

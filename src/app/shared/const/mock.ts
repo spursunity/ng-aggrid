@@ -1,4 +1,5 @@
 import { IAppState } from '@shared/interface/app.interface';
+import { ITableRowData } from '@shared/interface/table.interface';
 
 class MockData {
   getEmptyInitialState(): IAppState {
@@ -64,4 +65,20 @@ export const INITIAL_IMAGE_DATA = {
   url: '',
   width: 0,
   height: 0,
+};
+
+export const MOCK_TABLE_EFFECTS_PAYLOAD: { content: ITableRowData[] } = {
+  content: [
+    {
+      thumbnail: {
+        url: 'ttt',
+        width: 111,
+        height: 111,
+      },
+      publishedAt: new Date().toString(),
+      title: 'snippet.title',
+      description: 'snippet.description',
+      videoLink: 'https://www.youtube.com/watch?v=1882',
+    },
+  ],
 };

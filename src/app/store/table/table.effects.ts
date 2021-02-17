@@ -18,7 +18,10 @@ export class TableEffects {
             type: ADD_TABLE_DATA_ACTION,
             payload,
           })),
-          catchError(() => EMPTY)
+          catchError((e) => {
+            console.error('ERROR - TableEffects - loadTableData: ', e.message);
+            return EMPTY;
+          })
         )
       )
     )
