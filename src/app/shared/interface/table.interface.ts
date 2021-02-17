@@ -1,3 +1,9 @@
+interface IThumbnail {
+  url: string;
+  width: number;
+  height: number;
+}
+
 export interface ITableState {
   content: ITableRowData[];
   hasSelection: boolean;
@@ -6,28 +12,21 @@ export interface ITableState {
 }
 
 export interface ITableRowData {
-  thumbnail: {
-    url: string;
-    width: number;
-    height: number;
-  };
+  thumbnail: IThumbnail;
   publishedAt: Date | string;
   title: string;
   description: string;
   videoLink: string;
 }
 
-/**
- * Youtube API data
- */
 export interface IResponseTableDataItem {
   snippet: {
     thumbnails: {
-      default: ITableRowData['thumbnail'];
-      medium: ITableRowData['thumbnail'];
-      high: ITableRowData['thumbnail'];
+      default: IThumbnail;
+      medium: IThumbnail;
+      high: IThumbnail;
     };
-    publishedAt: ITableRowData['publishedAt'];
+    publishedAt: Date | string;
     title: string;
     description: string;
   };
