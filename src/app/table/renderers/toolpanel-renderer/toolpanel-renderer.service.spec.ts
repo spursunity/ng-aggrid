@@ -6,18 +6,12 @@ import { filter, take } from 'rxjs/operators';
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
 import { changeSelectionStatus, initialState } from '@store/table';
 import { AppModule } from 'src/app/app.module';
+import { MOCK_AG_INIT_PARAMS_COMMON } from '@shared/const/mock';
 
 describe('ToolpanelRendererService', () => {
   let service: ToolpanelRendererService;
   let store: Store;
-  const params = {
-    api: {
-      deselectAll: () => {},
-    },
-    columnApi: {
-      applyColumnState: ({}) => {},
-    },
-  };
+  const params = { ...MOCK_AG_INIT_PARAMS_COMMON };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

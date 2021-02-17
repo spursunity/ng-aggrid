@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { ICellRendererParams } from 'ag-grid-community';
-import { fromEventPattern, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { NodeEventHandler } from 'rxjs/internal/observable/fromEvent';
+import { EventTargetLike, fromEvent } from 'rxjs/internal/observable/fromEvent';
 
 import { BaseCellRendererComponent } from '../../base-cell-renderer.component';
 
@@ -14,48 +13,28 @@ import { BaseCellRendererComponent } from '../../base-cell-renderer.component';
 export class SelectionHeaderRendererComponent extends BaseCellRendererComponent {
   checked = false;
 
-  private selectionHandler$!: Observable<void>;
-
   agInit(params: ICellRendererParams): void {
     super.agInit(params);
-    this.compareRowsCount();
-    this.addSelectionListener();
+    this.updateCheckedState();
+    fromEvent(this.params.api as EventTargetLike<void>, 'selectionChanged')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateCheckedState());
   }
 
-  changeRowsSelectionState() {
+  changeRowsSelectionState(): void {
     if (this.checked) {
       this.params.api?.deselectAll();
     } else {
       this.params.api?.selectAll();
     }
-    this.compareRowsCount();
+    this.updateCheckedState();
   }
 
-  private compareRowsCount(): void {
+  private updateCheckedState(): void {
     if (this.params) {
       this.checked =
         this.params.api.getDisplayedRowCount() ===
         this.params.api.getSelectedRows()?.length;
     }
-  }
-
-  private addSelectionListener() {
-    const eventName = 'selectionChanged';
-    const addSelectionHandler = (handler: NodeEventHandler) => {
-      this.params.api.addEventListener(eventName, handler);
-    };
-
-    const removeSelectionHandler = (handler: NodeEventHandler) => {
-      this.params.api.removeEventListener(eventName, handler);
-    };
-
-    this.selectionHandler$ = fromEventPattern(
-      addSelectionHandler,
-      removeSelectionHandler
-    );
-
-    this.selectionHandler$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.compareRowsCount());
   }
 }

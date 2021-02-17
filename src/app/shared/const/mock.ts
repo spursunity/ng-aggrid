@@ -43,6 +43,18 @@ export const getEmptyInitialState = (): IAppState => ({
   },
 });
 
+export const MOCK_AG_INIT_PARAMS_COMMON = {
+  api: {
+    deselectAll: () => {},
+    selectAll: () => {},
+    getDisplayedRowCount: () => 10,
+    getSelectedRows: () => new Array(11),
+  },
+  columnApi: {
+    applyColumnState: ({}) => {},
+  },
+};
+
 export const MOCK_AG_INIT_PARAMS_THUMBNAIL = {
   value: {
     url: 'fdfdfd',
