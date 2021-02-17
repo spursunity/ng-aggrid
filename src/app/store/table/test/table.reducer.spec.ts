@@ -1,4 +1,4 @@
-import { mockData } from '@shared/const/mock';
+import { getInitialStateWithContent } from '@shared/const/mock';
 import {
   addTableData,
   changeSelectionStatus,
@@ -21,7 +21,7 @@ describe('TableReducer', () => {
 
   describe('Add Table Data action', () => {
     it('should add table data into state', () => {
-      const content = [...mockData.getInitialStateWithContent(1).table.content];
+      const content = [...getInitialStateWithContent(1).table.content];
       const newState = {
         ...initialState,
         content: [...content],

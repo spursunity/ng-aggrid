@@ -7,7 +7,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class BaseHttpService {
   constructor(private http: HttpClient) {}
 
-  protected httpGetRequest<T>(url: string): Observable<T | never> {
+  protected httpGetRequest<T>(url: string): Observable<T> {
     return this.http.get<T>(url).pipe(
       retry(2),
       catchError((err) => {

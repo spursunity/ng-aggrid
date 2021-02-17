@@ -1,53 +1,47 @@
 import { IAppState } from '@shared/interface/app.interface';
 import { ITableRowData } from '@shared/interface/table.interface';
 
-class MockData {
-  getEmptyInitialState(): IAppState {
-    return {
-      table: {
-        allRowsCount: 0,
-        content: [],
-        hasSelection: false,
-        selectedRowsCount: 0,
+export const getInitialStateWithContent = (
+  rows: number,
+  hasSelection: boolean = false,
+  selected: number = 0
+): IAppState => {
+  const content = [];
+
+  for (let i = 0; i < rows; i++) {
+    content.push({
+      thumbnail: {
+        url: 'url' + i,
+        width: 10 * i + 10,
+        height: 10 * i + 10,
       },
-    };
+      publishedAt: new Date(),
+      title: 'title' + i,
+      description: 'description' + i,
+      videoLink: 'videoLink' + i,
+    });
   }
 
-  getInitialStateWithContent(
-    rows: number,
-    hasSelection: boolean = false,
-    selected: number = 0
-  ): IAppState {
-    const content = [];
+  const table = {
+    allRowsCount: rows,
+    content,
+    hasSelection,
+    selectedRowsCount: selected,
+  };
 
-    for (let i = 0; i < rows; i++) {
-      content.push({
-        thumbnail: {
-          url: 'url' + i,
-          width: 10 * i + 10,
-          height: 10 * i + 10,
-        },
-        publishedAt: new Date(),
-        title: 'title' + i,
-        description: 'description' + i,
-        videoLink: 'videoLink' + i,
-      });
-    }
+  return {
+    table,
+  };
+};
 
-    const table = {
-      allRowsCount: rows,
-      content,
-      hasSelection,
-      selectedRowsCount: selected,
-    };
-
-    return {
-      table,
-    };
-  }
-}
-
-export const mockData = new MockData();
+export const getEmptyInitialState = (): IAppState => ({
+  table: {
+    allRowsCount: 0,
+    content: [],
+    hasSelection: false,
+    selectedRowsCount: 0,
+  },
+});
 
 export const MOCK_AG_INIT_PARAMS_THUMBNAIL = {
   value: {

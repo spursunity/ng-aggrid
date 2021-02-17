@@ -1,9 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+
 import {
   IResponseTableData,
   ITableRowData,
 } from '@shared/interface/table.interface';
-import { BaseHttpService } from './base-http.service';
 import { VideosService } from './videos.service';
 
 describe('VideosService', () => {
@@ -57,30 +59,22 @@ describe('VideosService', () => {
   ];
 
   beforeEach(async () => {
-    const spy = jasmine.createSpyObj('BaseHttpService', ['httpGetRequest']);
-
     await TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       providers: [VideosService],
     });
 
     service = TestBed.inject(VideosService);
   });
 
-  // it('getVideos() should return mapped data', (done) => {
-  //   expect(service).toBeTruthy();
-  //   expect(BaseHttpServiceSpy).toBeTruthy();
+  it('getVideos() should return mapped data', (done) => {
+    spyOn<any>(service, 'httpGetRequest').and.returnValue(of(mockResponse));
 
-  //   service.httpGetRequest.and.returnValue(
-  //     new Observable((subscriber) => subscriber.next(mockResponse))
-  //   );
-
-  //   service
-  //     .getVideos()
-  //     .subscribe(({ content }: { content: ITableRowData[] }) => {
-  //       expect(content).toEqual(mockMappedData);
-  //       done();
-  //     });
-
-  //   expect(BaseHttpServiceSpy.httpGetRequest).toHaveBeenCalled();
-  // });
+    service
+      .getVideos()
+      .subscribe(({ content }: { content: ITableRowData[] }) => {
+        expect(content).toEqual(mockMappedData);
+        done();
+      });
+  });
 });

@@ -21,9 +21,7 @@ export interface ITableRowData {
  * Youtube API data
  */
 export interface IResponseTableDataItem {
-  [key: string]: any;
   snippet: {
-    [key: string]: any;
     thumbnails: {
       default: ITableRowData['thumbnail'];
       medium: ITableRowData['thumbnail'];
@@ -40,6 +38,5 @@ export interface IResponseTableDataItem {
 }
 
 export interface IResponseTableData {
-  [key: string]: any;
   items: IResponseTableDataItem[];
 }

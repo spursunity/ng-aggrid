@@ -9,7 +9,7 @@ import {
 import { MaterialModule } from 'src/app/material/material.module';
 import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
 import { VideosService } from '@shared/service/videos.service';
-import { mockData } from '@shared/const/mock';
+import { getInitialStateWithContent } from '@shared/const/mock';
 import { TableComponent } from 'src/app/table/table.component';
 import { SelectionCellComponent } from './selection-renderer.component';
 import { TableService } from 'src/app/table/table.service';
@@ -19,7 +19,7 @@ describe('SelectionCellComponent', () => {
   let tableComponent: TableComponent;
   let tableFixture: ComponentFixture<TableComponent>;
   let html: HTMLElement;
-  const initialState: IAppState = mockData.getInitialStateWithContent(2);
+  const initialState: IAppState = getInitialStateWithContent(2);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

@@ -3,7 +3,7 @@ import { IToolPanelParams } from 'ag-grid-community';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { IAppState } from '@shared/interface/app.interface';
-import { mockData } from '@shared/const/mock';
+import { getEmptyInitialState } from '@shared/const/mock';
 import { ToolpanelRendererComponent } from './toolpanel-renderer.component';
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
 
@@ -17,7 +17,7 @@ describe('ToolpanelRendererComponent', () => {
     },
     columnApi: {},
   };
-  const initialState: IAppState = mockData.getEmptyInitialState();
+  const initialState: IAppState = getEmptyInitialState();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
