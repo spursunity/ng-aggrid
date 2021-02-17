@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectionHeaderRendererComponent } from './selection-header-renderer.component';
-import { MOCK_AG_INIT_PARAMS_COMMON } from '@shared/const/mock';
+import { MOCK_AG_INIT_PARAMS_COMMON } from 'src/assets/tests-utils/mock';
 
 describe('SelectionHeaderRendererComponent', () => {
   let component: SelectionHeaderRendererComponent;

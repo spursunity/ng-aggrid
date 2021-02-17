@@ -3,7 +3,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppModule } from '../app.module';
 import { IAppState } from '@shared/interface/app.interface';
-import { getEmptyInitialState } from '@shared/const/mock';
+import { getEmptyInitialState } from 'src/assets/tests-utils/mock';
 import { TableComponent } from './table.component';
 import { TableService } from './table.service';
 

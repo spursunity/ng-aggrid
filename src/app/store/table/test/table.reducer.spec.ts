@@ -1,4 +1,4 @@
-import { getInitialStateWithContent } from '@shared/const/mock';
+import { getInitialStateWithContent } from 'src/assets/tests-utils/mock';
 import {
   addTableData,
   changeSelectionStatus,

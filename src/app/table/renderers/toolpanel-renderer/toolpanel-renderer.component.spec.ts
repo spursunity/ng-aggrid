@@ -3,7 +3,7 @@ import { IToolPanelParams } from 'ag-grid-community';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { IAppState } from '@shared/interface/app.interface';
-import { getEmptyInitialState } from '@shared/const/mock';
+import { getEmptyInitialState } from 'src/assets/tests-utils/mock';
 import { ToolpanelRendererComponent } from './toolpanel-renderer.component';
 import { ToolpanelRendererService } from './toolpanel-renderer.service';
 

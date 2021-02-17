@@ -11,7 +11,7 @@ import {
   getInitialStateWithContent,
   MOCK_CONTEXT_MENU_SNAPSHOT,
   MOCK_GRID_OPTIONS_SNAPSHOT,
-} from '@shared/const/mock';
+} from 'src/assets/tests-utils/mock';
 
 describe('TableService', () => {
   let service: TableService;

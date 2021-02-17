@@ -4,7 +4,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 import {
   INITIAL_IMAGE_DATA,
   MOCK_AG_INIT_PARAMS_THUMBNAIL,
-} from '@shared/const/mock';
+} from 'src/assets/tests-utils/mock';
 import { ThumbnailRendererComponent } from './thumbnail-renderer.component';
 
 describe('ThumbnailRendererComponent', () => {

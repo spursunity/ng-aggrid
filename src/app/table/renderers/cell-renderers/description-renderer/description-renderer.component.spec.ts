@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { MOCK_AG_INIT_PARAMS_DESCRIPTION } from '@shared/const/mock';
+import { MOCK_AG_INIT_PARAMS_DESCRIPTION } from 'src/assets/tests-utils/mock';
 import { DescriptionRendererComponent } from './description-renderer.component';
 
 describe('DescriptionRendererComponent', () => {

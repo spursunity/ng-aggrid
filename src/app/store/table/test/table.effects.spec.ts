@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { AppModule } from 'src/app/app.module';
-import { MOCK_TABLE_EFFECTS_PAYLOAD } from '@shared/const/mock';
+import { MOCK_TABLE_EFFECTS_PAYLOAD } from 'src/assets/tests-utils/mock';
 import { TABLE_EFFECT_ACTIONS } from '@shared/const/table.const';
 import { TableEffects } from '../table.effects';
 import { VideosService } from '@shared/service/videos.service';
