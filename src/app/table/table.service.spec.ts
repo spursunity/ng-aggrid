@@ -3,26 +3,25 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { TableService } from './table.service';
 import { IAppState } from '@shared/interface/app.interface';
-import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { AppModule } from '../app.module';
 import { ITableRowData } from '@shared/interface/table.interface';
 import { GetContextMenuItemsParams } from 'ag-grid-community';
-import { CONTEXT_MENU, TABLE_TITLE } from '@shared/const/table.const';
-import { mockData } from '@shared/const/mock';
+import {
+  getEmptyInitialState,
+  getInitialStateWithContent,
+  MOCK_CONTEXT_MENU_SNAPSHOT,
+  MOCK_GRID_OPTIONS_SNAPSHOT,
+} from 'src/assets/tests-utils/mock';
 
 describe('TableService', () => {
   let service: TableService;
   let store: MockStore;
-  const initialState: IAppState = mockData.getEmptyInitialState();
+  const initialState: IAppState = getEmptyInitialState();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
-      providers: [
-        TableService,
-        HttpHelperService,
-        provideMockStore({ initialState }),
-      ],
+      providers: [TableService, provideMockStore({ initialState })],
     });
     store = TestBed.inject(MockStore);
     service = TestBed.inject(TableService);
@@ -32,13 +31,13 @@ describe('TableService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getTableData() should return observer with "content" <ITableRowData[]> property of Store', () => {
+  it('should have table data as observer with "content" <ITableRowData[]> property of Store', () => {
     let content = initialState.table.content;
-    service.getTableData().subscribe((value: ITableRowData[]) => {
+    service.tableData$.subscribe((value: ITableRowData[]) => {
       expect(value.length).toEqual(content.length);
     });
 
-    content = mockData.getInitialStateWithContent(1).table.content;
+    content = getInitialStateWithContent(1).table.content;
     store.setState({
       table: {
         ...initialState.table,
@@ -49,36 +48,15 @@ describe('TableService', () => {
 
   it('getTableGridOptions() should return <GridOptions>', () => {
     const gridOptions = service.getTableGridOptions();
-
-    expect(gridOptions).toBeInstanceOf(Object);
-    expect(gridOptions.onPaginationChanged).toBeTruthy(Object);
-    expect(gridOptions.onRowSelected).toBeTruthy(Object);
-  });
-
-  it('getTableSideBar() should return <SideBarDef>', () => {
-    const sideBar = service.getTableSideBar();
-
-    expect(sideBar).toBeInstanceOf(Object);
-    expect(sideBar.toolPanels).toBeInstanceOf(Array);
-  });
-
-  it('getTableTitle() should return <string>', () => {
-    expect(service.getTableTitle()).toEqual(TABLE_TITLE);
-  });
-
-  it('getTableColumnDefs() should return <ColDef[]>', () => {
-    const columnDefs = service.getTableColumnDefs();
-
-    expect(columnDefs).toBeInstanceOf(Array);
-    expect(columnDefs.length).toBeGreaterThanOrEqual(1);
+    expect(JSON.stringify(gridOptions)).toEqual(MOCK_GRID_OPTIONS_SNAPSHOT);
   });
 
   it('getTableContextMenuItems() should return <(string | MenuItemDef)[]>', () => {
     const contextMenuItems = service.getTableContextMenuItems(
       {} as GetContextMenuItemsParams
     );
-
-    expect(contextMenuItems).toBeInstanceOf(Array);
-    expect(contextMenuItems.length).toEqual(CONTEXT_MENU.defaultMenu.length);
+    expect(JSON.stringify(contextMenuItems)).toEqual(
+      MOCK_CONTEXT_MENU_SNAPSHOT
+    );
   });
 });

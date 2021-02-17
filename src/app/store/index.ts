@@ -1,6 +1,6 @@
-import { EReducerKeys } from '@shared/enum/app.enum';
+import { REDUCER_TABLE_KEY } from '@shared/const/table.const';
 import { tableReducer } from './table';
 
 export const appState = {
-  [EReducerKeys.table]: tableReducer,
+  [REDUCER_TABLE_KEY]: tableReducer,
 };

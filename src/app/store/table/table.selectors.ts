@@ -1,11 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { EReducerKeys } from '@shared/enum/app.enum';
+import { REDUCER_TABLE_KEY } from '@shared/const/table.const';
 import { IAppState } from '@shared/interface/app.interface';
 import { ITableState } from '@shared/interface/table.interface';
 
 const selectTableDataFeature = createFeatureSelector<IAppState, ITableState>(
-  EReducerKeys.table
+  REDUCER_TABLE_KEY
 );
 
 export const selectTableData = createSelector(
