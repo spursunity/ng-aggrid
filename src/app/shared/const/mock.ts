@@ -92,3 +92,7 @@ export const MOCK_TABLE_EFFECTS_PAYLOAD: { content: ITableRowData[] } = {
     },
   ],
 };
+
+export const MOCK_CONTEXT_MENU_SNAPSHOT = `["copy","copyWithHeaders","paste"]`;
+
+export const MOCK_GRID_OPTIONS_SNAPSHOT = `{"rowHeight":90,"defaultColDef":{"menuTabs":["generalMenuTab"]}}`;

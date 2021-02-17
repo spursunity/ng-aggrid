@@ -6,10 +6,11 @@ import { IAppState } from '@shared/interface/app.interface';
 import { AppModule } from '../app.module';
 import { ITableRowData } from '@shared/interface/table.interface';
 import { GetContextMenuItemsParams } from 'ag-grid-community';
-import { CONTEXT_MENU } from '@shared/const/table.const';
 import {
   getEmptyInitialState,
   getInitialStateWithContent,
+  MOCK_CONTEXT_MENU_SNAPSHOT,
+  MOCK_GRID_OPTIONS_SNAPSHOT,
 } from '@shared/const/mock';
 
 describe('TableService', () => {
@@ -47,32 +48,15 @@ describe('TableService', () => {
 
   it('getTableGridOptions() should return <GridOptions>', () => {
     const gridOptions = service.getTableGridOptions();
-
-    expect(gridOptions).toBeInstanceOf(Object);
-    expect(gridOptions.onPaginationChanged).toBeTruthy(Object);
-    expect(gridOptions.onRowSelected).toBeTruthy(Object);
-  });
-
-  it('getTableSideBar() should return <SideBarDef>', () => {
-    const sideBar = service.sideBar;
-
-    expect(sideBar).toBeInstanceOf(Object);
-    expect(sideBar.toolPanels).toBeInstanceOf(Array);
-  });
-
-  it('getTableColumnDefs() should return <ColDef[]>', () => {
-    const columnDefs = service.columnDefs;
-
-    expect(columnDefs).toBeInstanceOf(Array);
-    expect(columnDefs.length).toBeGreaterThanOrEqual(1);
+    expect(JSON.stringify(gridOptions)).toEqual(MOCK_GRID_OPTIONS_SNAPSHOT);
   });
 
   it('getTableContextMenuItems() should return <(string | MenuItemDef)[]>', () => {
     const contextMenuItems = service.getTableContextMenuItems(
       {} as GetContextMenuItemsParams
     );
-
-    expect(contextMenuItems).toBeInstanceOf(Array);
-    expect(contextMenuItems.length).toEqual(CONTEXT_MENU.defaultMenu.length);
+    expect(JSON.stringify(contextMenuItems)).toEqual(
+      MOCK_CONTEXT_MENU_SNAPSHOT
+    );
   });
 });
