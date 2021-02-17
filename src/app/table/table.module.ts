@@ -7,7 +7,7 @@ import { TableComponent } from './table.component';
 import { TableRoutingModule } from './table-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { ToolpanelRendererComponent } from './renderers/toolpanel-renderer/toolpanel-renderer.component';
-import { TableHelperService } from '@shared/helper/table-helper.service';
+import { VideosService } from '@shared/service/videos.service';
 import {
   DescriptionRendererComponent,
   PublishedRendererComponent,
@@ -34,6 +34,6 @@ import {
     AgGridModule.withComponents([]),
     MaterialModule,
   ],
-  providers: [TableHelperService],
+  providers: [VideosService],
 })
 export class TableModule {}

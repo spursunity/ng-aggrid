@@ -3,7 +3,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { TableService } from './table.service';
 import { IAppState } from '@shared/interface/app.interface';
-import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { AppModule } from '../app.module';
 import { ITableRowData } from '@shared/interface/table.interface';
 import { GetContextMenuItemsParams } from 'ag-grid-community';
@@ -18,11 +17,7 @@ describe('TableService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
-      providers: [
-        TableService,
-        HttpHelperService,
-        provideMockStore({ initialState }),
-      ],
+      providers: [TableService, provideMockStore({ initialState })],
     });
     store = TestBed.inject(MockStore);
     service = TestBed.inject(TableService);

@@ -11,14 +11,12 @@ import {
   IResponseTableDataItem,
   ITableRowData,
 } from '@shared/interface/table.interface';
-import { HttpHelperService } from './http-helper.service';
+import { BaseHttpService } from './base-http.service';
 
 @Injectable()
-export class TableHelperService {
-  constructor(private httpHelper: HttpHelperService) {}
-
+export class VideosService extends BaseHttpService {
   getYoutubeAPIData(): Observable<{ content: ITableRowData[] }> {
-    return this.httpHelper.httpGetRequest(YOUTUBE_DATA_URL).pipe(
+    return this.httpGetRequest<IResponseTableData>(YOUTUBE_DATA_URL).pipe(
       map((response: IResponseTableData): { content: ITableRowData[] } => ({
         content: (response?.items || []).map(
           ({ snippet, id }: IResponseTableDataItem) => ({

@@ -4,11 +4,11 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 @Injectable()
-export class HttpHelperService {
+export class BaseHttpService {
   constructor(private http: HttpClient) {}
 
-  public httpGetRequest(url: string = ''): Observable<any> {
-    return this.http.get(url).pipe(
+  protected httpGetRequest<T>(url: string): Observable<T | never> {
+    return this.http.get<T>(url).pipe(
       retry(2),
       catchError((err) => {
         console.error('GET Request Error: \n', err);

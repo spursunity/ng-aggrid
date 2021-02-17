@@ -8,7 +8,7 @@ import {
 } from '@shared/interface/app.interface';
 import { MaterialModule } from 'src/app/material/material.module';
 import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
-import { TableHelperService } from '@shared/helper/table-helper.service';
+import { VideosService } from '@shared/service/videos.service';
 import { mockData } from '@shared/const/mock';
 import { TableComponent } from 'src/app/table/table.component';
 import { SelectionCellComponent } from './selection-renderer.component';
@@ -26,7 +26,7 @@ describe('SelectionCellComponent', () => {
       declarations: [TableComponent, SelectionCellComponent],
       imports: [AppModule, MaterialModule],
       providers: [
-        TableHelperService,
+        VideosService,
         TableService,
         provideMockStore({ initialState }),
       ],

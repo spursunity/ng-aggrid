@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppModule } from '../app.module';
-import { HttpHelperService } from '@shared/helper/http-helper.service';
 import { IAppState } from '@shared/interface/app.interface';
 import { mockData } from '@shared/const/mock';
 import { TableComponent } from './table.component';
@@ -18,11 +17,7 @@ describe('TableComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [TableComponent],
       imports: [AppModule],
-      providers: [
-        TableService,
-        HttpHelperService,
-        provideMockStore({ initialState }),
-      ],
+      providers: [TableService, provideMockStore({ initialState })],
     }).compileComponents();
   });
 

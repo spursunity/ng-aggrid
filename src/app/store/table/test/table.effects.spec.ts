@@ -9,7 +9,7 @@ import { IAppState } from '@shared/interface/app.interface';
 import { mockData } from '@shared/const/mock';
 import { TABLE_EFFECT_ACTIONS } from '@shared/const/table.const';
 import { TableEffects } from '../table.effects';
-import { TableHelperService } from '@shared/helper/table-helper.service';
+import { VideosService } from '@shared/service/videos.service';
 import { TableService } from 'src/app/table/table.service';
 
 describe('TableEffects', () => {
@@ -30,7 +30,7 @@ describe('TableEffects', () => {
     store = TestBed.inject(MockStore);
     service = TestBed.inject(TableService);
     TestBed.inject<TableEffects>(TableEffects);
-    TestBed.inject(TableHelperService);
+    TestBed.inject(VideosService);
   });
 
   it('should emit loadTable action', (done) => {
