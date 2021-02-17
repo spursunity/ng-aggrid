@@ -15,7 +15,7 @@ import { BaseHttpService } from './base-http.service';
 
 @Injectable()
 export class VideosService extends BaseHttpService {
-  getYoutubeAPIData(): Observable<{ content: ITableRowData[] }> {
+  getVideos(): Observable<{ content: ITableRowData[] }> {
     return this.httpGetRequest<IResponseTableData>(YOUTUBE_DATA_URL).pipe(
       map((response: IResponseTableData): { content: ITableRowData[] } => ({
         content: (response?.items || []).map(
@@ -31,7 +31,7 @@ export class VideosService extends BaseHttpService {
     );
   }
 
-  private getVideoLink(videoId: string = ''): string {
+  private getVideoLink(videoId: string): string {
     return YOUTUBE_VIDEO_LINK.template.replace(
       YOUTUBE_VIDEO_LINK.replacement,
       videoId

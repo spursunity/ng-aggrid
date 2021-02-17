@@ -66,7 +66,7 @@ describe('VideosService', () => {
     service = TestBed.inject(VideosService);
   });
 
-  // it('getYoutubeAPIData() should return mapped data', (done) => {
+  // it('getVideos() should return mapped data', (done) => {
   //   expect(service).toBeTruthy();
   //   expect(BaseHttpServiceSpy).toBeTruthy();
 
@@ -75,7 +75,7 @@ describe('VideosService', () => {
   //   );
 
   //   service
-  //     .getYoutubeAPIData()
+  //     .getVideos()
   //     .subscribe(({ content }: { content: ITableRowData[] }) => {
   //       expect(content).toEqual(mockMappedData);
   //       done();

@@ -13,7 +13,7 @@ export class TableEffects {
     this.actions$.pipe(
       ofType(TABLE_EFFECT_ACTIONS.loadTableData),
       mergeMap(() =>
-        this.videosSrv.getYoutubeAPIData().pipe(
+        this.videosSrv.getVideos().pipe(
           map((payload = { content: [] }) => ({
             type: ADD_TABLE_DATA_ACTION,
             payload,
