@@ -23,3 +23,5 @@ export const CONTEXT_MENU = {
 export const TABLE_EFFECT_ACTIONS = {
   loadTableData: '[Table Component] Load Data',
 };
+
+export const REDUCER_TABLE_KEY = 'table';

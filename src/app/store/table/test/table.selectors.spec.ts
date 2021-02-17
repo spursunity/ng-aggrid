@@ -1,4 +1,4 @@
-import { mockData } from '@shared/const/mock';
+import { getInitialStateWithContent } from 'src/assets/tests-utils/mock';
 import { ITableState } from '@shared/interface/table.interface';
 import {
   selectAllRowsCount,
@@ -13,7 +13,7 @@ describe('TableSelectors', () => {
   let secondTitle: string;
 
   beforeEach(() => {
-    initialState = mockData.getInitialStateWithContent(3, true).table;
+    initialState = getInitialStateWithContent(3, true).table;
 
     contentSize = initialState.content?.length;
     secondTitle = initialState.content[1]?.title;
