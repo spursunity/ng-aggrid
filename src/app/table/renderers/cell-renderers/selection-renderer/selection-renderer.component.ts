@@ -10,9 +10,7 @@ import { BaseCellRendererComponent } from '../../base-cell-renderer.component';
 })
 export class SelectionCellComponent extends BaseCellRendererComponent {
   get checked() {
-    const isSelected = this.params?.node?.isSelected();
-
-    return Boolean(isSelected);
+    return !!this.params?.node?.isSelected();
   }
 
   agInit(params: ICellRendererParams): void {

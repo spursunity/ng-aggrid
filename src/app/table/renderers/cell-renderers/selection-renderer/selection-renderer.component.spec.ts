@@ -1,77 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { ICellRendererParams } from 'ag-grid-community';
 
-import { AppModule } from 'src/app/app.module';
-import {
-  IAppState,
-  TCustomCellRendererComp,
-} from '@shared/interface/app.interface';
-import { MaterialModule } from 'src/app/material/material.module';
-import { TABLE_SELECTION_COLUMN_ID } from '@shared/const/table.const';
-import { VideosService } from '@shared/service/videos.service';
-import { getInitialStateWithContent } from '@shared/const/mock';
-import { TableComponent } from 'src/app/table/table.component';
+import { MOCK_AG_INIT_PARAMS_COMMON } from '@shared/const/mock';
 import { SelectionCellComponent } from './selection-renderer.component';
-import { TableService } from 'src/app/table/table.service';
 
 describe('SelectionCellComponent', () => {
+  let fixture: ComponentFixture<SelectionCellComponent>;
   let component: SelectionCellComponent;
-  let tableComponent: TableComponent;
-  let tableFixture: ComponentFixture<TableComponent>;
-  let html: HTMLElement;
-  const initialState: IAppState = getInitialStateWithContent(2);
+  let selected = false;
+  const params = {
+    ...MOCK_AG_INIT_PARAMS_COMMON,
+    node: {
+      setSelected: (newValue: boolean) => {
+        selected = newValue;
+      },
+      isSelected: () => selected,
+    },
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TableComponent, SelectionCellComponent],
-      imports: [AppModule, MaterialModule],
-      providers: [
-        VideosService,
-        TableService,
-        provideMockStore({ initialState }),
-      ],
+      declarations: [SelectionCellComponent],
     }).compileComponents();
   });
 
-  beforeEach(async (done) => {
-    /**
-     * 'selection' column is hidden from the beginning
-     * therefore we have to show it before tests
-     */
-    const store = TestBed.inject(MockStore);
-    tableFixture = TestBed.createComponent(TableComponent);
-    tableComponent = tableFixture.componentInstance;
-    tableFixture.detectChanges();
-    await tableFixture.whenStable();
-
-    const eventHandler = () => {
-      const instances =
-        tableComponent.gridOptions?.api?.getCellRendererInstances({
-          columns: [TABLE_SELECTION_COLUMN_ID],
-        }) || [];
-      const wrapperInstance = instances[0] as TCustomCellRendererComp<SelectionCellComponent>;
-      component = wrapperInstance?.getFrameworkComponentInstance();
-      html = wrapperInstance?.getGui();
-      tableComponent.gridOptions?.api?.removeEventListener(
-        'gridColumnsChanged',
-        eventHandler
-      );
-      done();
-    };
-    tableComponent.gridOptions?.api?.addEventListener(
-      'gridColumnsChanged',
-      eventHandler
-    );
-    tableComponent?.gridOptions?.columnApi?.applyColumnState({
-      state: [
-        {
-          colId: TABLE_SELECTION_COLUMN_ID,
-          hide: false,
-        },
-      ],
-    });
-    tableFixture.detectChanges();
-    await tableFixture.whenStable();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SelectionCellComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.agInit(params as ICellRendererParams);
+    selected = false;
   });
 
   it('should create', () => {
@@ -82,8 +40,11 @@ describe('SelectionCellComponent', () => {
     expect(component.checked).toBeFalse();
   });
 
-  it('should have checkbox', () => {
-    expect(html.querySelector('input')).toBeTruthy();
+  it('should call "setSelected"', () => {
+    spyOn(params.node, 'setSelected');
+    component.selectRow();
+
+    expect(params.node.setSelected).toHaveBeenCalled();
   });
 
   it('should be checked after row selection', () => {
