@@ -1,5 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ICellRendererParams } from 'ag-grid-community';
 
+import {
+  INITIAL_IMAGE_DATA,
+  MOCK_AG_INIT_PARAMS_THUMBNAIL,
+} from '@shared/const/mock';
 import { ThumbnailRendererComponent } from './thumbnail-renderer.component';
 
 describe('ThumbnailRendererComponent', () => {
@@ -22,12 +27,13 @@ describe('ThumbnailRendererComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have property "imageData"', () => {
-    expect(component.imageData).toBeTruthy();
+  it('should have initial image data', () => {
+    expect(component.imageData).toEqual(INITIAL_IMAGE_DATA);
   });
 
-  it('should have image', () => {
-    const html = fixture.nativeElement;
-    expect(html.querySelector('img')).toBeTruthy();
+  it('should set proper image data in "agInit"', () => {
+    component.agInit(MOCK_AG_INIT_PARAMS_THUMBNAIL as ICellRendererParams);
+
+    expect(component.imageData).toEqual(MOCK_AG_INIT_PARAMS_THUMBNAIL.value);
   });
 });

@@ -47,3 +47,17 @@ class MockData {
 }
 
 export const mockData = new MockData();
+
+export const MOCK_AG_INIT_PARAMS_THUMBNAIL = {
+  value: {
+    url: 'fdfdfd',
+    width: 111,
+    height: 222,
+  },
+};
+
+export const INITIAL_IMAGE_DATA = {
+  url: '',
+  width: 0,
+  height: 0,
+};
